@@ -15,7 +15,7 @@
 </header>
 
 <main class="container">
-    <form method="post" action="/connexion" class="card form-card">
+    <form method="post" action="/login" class="card form-card">
         <?= csrf_field() ?>
 
         <div>

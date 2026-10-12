@@ -11,7 +11,7 @@
 <body>
 
 <header class="header">
-    <h1>Formulaire de création de compte</h1>
+    <h1>Création de compte</h1>
 </header>
 
 <main class="container">
