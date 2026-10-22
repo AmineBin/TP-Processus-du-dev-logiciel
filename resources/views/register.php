@@ -20,22 +20,32 @@
 
         <div>
             <label for="name">Pseudo</label>
-            <input type="text" id="name" name="name" required>
+            <input type="text" id="name" name="name" placeholder="Dio" required>
         </div>
 
         <div>
             <label for="name">Nom</label>
-            <input type="text" id="name" name="name" required>
+            <input type="text" id="name" name="name" placeholder="Diego" required>
         </div>
 
         <div>
             <label for="name">Prénom</label>
-            <input type="text" id="name" name="name" required>
+            <input type="text" id="name" name="name" placeholder="Brando" required>
         </div>
 
         <div>
-            <label for="email">Adresse e-mail</label>
-            <input type="email" id="email" name="email" required>
+            <label for="email">Adresse mail</label>
+            <input type="email" id="email" name="email" placeholder="dio.brando@gmail.com" required>
+        </div>
+
+        <div>
+            <label for="tel">Numéro de téléphone</label>
+            <input type="tel" id="tel" name="tel" inputmode="tel" pattern="0[1-9](?:[ .-]?[0-9]{2}){4}" placeholder="06 12 34 56 78" required>
+        </div>
+
+        <div>
+            <label for="date">Date de naissance</label>
+            <input type="date" id="date" name="date" value="2018-07-22" required>
         </div>
 
         <div>

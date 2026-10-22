@@ -128,6 +128,15 @@ a {
     outline: none;
 }
 
+.form-card input[type="date"] {
+    color-scheme: dark;
+}
+
+.form-card input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.8;
+}
+
 .form-card button {
     grid-column: 1;
     width: 100%;
@@ -157,6 +166,12 @@ a {
     display: inline;
     width: auto;
     height: auto;
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.form-card p a:hover {
+    color: var(--accent-hover);
 }
 
 .card a {
