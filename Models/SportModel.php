@@ -5,8 +5,8 @@ namespace Models;
 class SportModel
 {
     private array $data = [
-        'Jeu vidéo'     => ['Combat', 'Sport', 'Quiz', 'FPS', 'Speedrun'],
-        'Sports'        => ['Basket', 'Foot', 'Tennis', 'Ping Pong', 'Athlé'],
+        'Jeu vidéo'     => ['Combat', 'Sport', 'Quiz'],
+        'Sports'        => ['Basket', 'Foot', 'Tennis'],
         'Jeux de table' => ['Poker', 'Chess'],
     ];
 
