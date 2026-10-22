@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Connexion</title>
 
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/login.css">
 </head>
 
 <body>
@@ -16,7 +16,7 @@
 
 <main class="container">
     <form method="post" action="/login" class="card form-card">
-        <?= csrf_field() ?>
+        @csrf
 
         <div>
             <label for="email">Adresse e-mail</label>
