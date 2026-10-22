@@ -85,8 +85,10 @@ CREATE TABLE categorie (
 CREATE TABLE utilisateur (
     id INT NOT NULL AUTO_INCREMENT,
     nom_utilisateur VARCHAR(50) NOT NULL,
-    email VARCHAR(100) NOT NULL,
     mot_de_passe_hash VARCHAR(255) NOT NULL,
+	date_naissance DATE NOT NULL,
+    email VARCHAR(100) NOT NULL,
+	numero_telephone VARCHAR(20) NOT NULL,
     prenom VARCHAR(50) DEFAULT NULL,
     nom VARCHAR(50) DEFAULT NULL,
     date_creation DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

@@ -62,20 +62,20 @@ VALUES
 -- destinées aux données de démonstration.
 
 INSERT INTO utilisateur
-    (nom_utilisateur, email, mot_de_passe_hash, prenom, nom,
-     date_creation, est_actif, role_id)
+    (nom_utilisateur, email, numero_telephone, date_naissance, mot_de_passe_hash,
+     prenom, nom, date_creation, est_actif, role_id)
 VALUES
-    ('admin', 'admin@tournois.fr', 'HASH_TEST_ADMIN',
-     'Admin', 'Plateforme', '2026-10-12 13:14:18', TRUE, 3),
+    ('admin', 'admin@tournois.fr', '+33600000001', '1985-04-12',
+     'HASH_TEST_ADMIN', 'Admin', 'Plateforme', '2026-10-12 13:14:18', TRUE, 3),
 
-    ('elie', 'elie@example.com', 'HASH_TEST_ELIE',
-     'Elie', 'Geagea', '2026-10-12 13:14:18', TRUE, 1),
+    ('elie', 'elie@example.com', '+33600000002', '1995-07-19',
+     'HASH_TEST_ELIE', 'Elie', 'Geagea', '2026-10-12 13:14:18', TRUE, 1),
 
-    ('joueur1', 'joueur1@example.com', 'HASH_TEST_1',
-     'Jean', 'Dupont', '2026-10-12 13:14:18', TRUE, 1),
+    ('joueur1', 'joueur1@example.com', '+33600000003', '1990-05-14',
+     'HASH_TEST_1', 'Jean', 'Dupont', '2026-10-12 13:14:18', TRUE, 1),
 
-    ('joueur2', 'joueur2@example.com', 'HASH_TEST_2',
-     'Marie', 'Martin', '2026-10-12 13:14:18', TRUE, 1);
+    ('joueur2', 'joueur2@example.com', '+33600000004', '2000-02-08',
+     'HASH_TEST_2', 'Marie', 'Martin', '2026-10-12 13:14:18', TRUE, 1);
 
 
 -- ============================================
