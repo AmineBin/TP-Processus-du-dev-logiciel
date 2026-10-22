@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
@@ -32,6 +33,8 @@ Route::get('/sport/{name?}', function (?string $name = null) {
 Route::get('/login/', function (?string $name = null) {
     return view('login');
 });
+
+Route::post('/login', [UserController::class, 'login']);
 
 Route::get('/register', function () {
     return view('register');

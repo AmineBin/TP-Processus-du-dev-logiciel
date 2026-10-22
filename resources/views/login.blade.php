@@ -18,6 +18,10 @@
     <form method="post" action="/login" class="card form-card">
         @csrf
 
+        @if ($errors->any())
+            <p>{{ $errors->first() }}</p>
+        @endif
+
         <div>
             <label for="email">Adresse e-mail</label>
             <input type="email" id="email" name="email" required>
@@ -33,9 +37,8 @@
         Pas encore de compte ? <a href="/register">Créer un compte</a>
         </p>
     </form>
-
-    
 </main>
 
 </body>
 </html>
+
