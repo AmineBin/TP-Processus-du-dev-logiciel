@@ -1,0 +1,238 @@
+:root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --card-hover: #26364a;
+    --text: #f8fafc;
+    --muted: #cbd5e1;
+    --accent: #3b82f6;
+    --accent-hover: #4f8ff7;
+    --accent-2: #14b8a6;
+    --border: #475569;
+    --radius: 4px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    min-height: 100vh;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.header {
+    padding: 3rem 1.5rem;
+    text-align: center;
+    background: var(--accent);
+}
+
+.header h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+}
+
+.header p {
+    margin-top: 0.5rem;
+    opacity: 0.85;
+}
+
+.container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
+}
+
+.section {
+    margin-bottom: 2.5rem;
+}
+
+.section h2 {
+    margin-bottom: 1rem;
+    padding-left: 0.8rem;
+    border-left: 4px solid var(--accent);
+    font-size: 1.4rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 1rem;
+    list-style: none;
+}
+
+.card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+    padding: 1.2rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    background: var(--card-hover);
+    border-color: var(--accent);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+.form-card:hover {
+    background: var(--card);
+    border-color: var(--border);
+    transform: none;
+    box-shadow: none;
+}
+
+.form-card {
+    display: grid;
+    gap: 1rem;
+    max-width: 680px;
+    margin: 0 auto 1.5rem;
+    text-align: left;
+}
+
+.form-card > div {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+}
+
+.form-card input {
+    width: 100%;
+    padding: 0.5rem 0.7rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font: inherit;
+}
+
+.form-card input:focus {
+    outline: none;
+}
+
+.form-card input[type="date"] {
+    color-scheme: dark;
+}
+
+.form-card input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.8;
+}
+
+.form-card button {
+    grid-column: 1;
+    width: 100%;
+    padding: 0.6rem 1rem;
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    color: var(--text);
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+}
+
+.form-card button:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+}
+
+.form-card p {
+    grid-column: 1;
+    margin-left: 10px;
+    white-space: nowrap;
+    text-align: left;
+}
+
+.form-card p a {
+    display: inline;
+    width: auto;
+    height: auto;
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.form-card p a:hover {
+    color: var(--accent-hover);
+}
+
+.card a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    color: var(--muted);
+    font-weight: 500;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.back:hover {
+    color: var(--accent-2);
+    transform: translateX(-4px);
+}
+
+.empty {
+    padding: 2rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--muted);
+    text-align: center;
+}
+
+.container h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+@media (max-width: 600px) {
+    .header {
+        padding: 2rem 1rem;
+    }
+
+    .container {
+        padding: 2rem 1rem;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+
+    .card {
+        min-height: 85px;
+        padding: 0.8rem;
+    }
+
+}
+
+@media (max-width: 380px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}

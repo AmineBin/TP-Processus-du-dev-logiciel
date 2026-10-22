@@ -17,29 +17,29 @@
 
 <main class="container">
 
-    <?php foreach ($categories as $type => $items): ?>
+    @foreach ($categories as $type => $items)
 
         <section class="section">
 
-            <h2><?= htmlspecialchars($type) ?></h2>
+            <h2>{{ $type }}</h2>
 
             <ul class="grid">
 
-                <?php foreach ($items as $name): ?>
+                @foreach ($items as $name)
 
                     <li class="card">
-                        <a href="/sport/<?= htmlspecialchars($model->urlName($name)) ?>">
-                            <?= htmlspecialchars($name) ?>
+                        <a href="/sport/{{ $model->urlName($name) }}">
+                            {{ $name }}
                         </a>
                     </li>
 
-                <?php endforeach; ?>
+                @endforeach
 
             </ul>
 
         </section>
 
-    <?php endforeach; ?>
+    @endforeach
 
 </main>
 
