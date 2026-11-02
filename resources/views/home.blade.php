@@ -31,7 +31,7 @@
                 @forelse ($categorie->sous_categories as $sousCategorie)
 
                     <li class="card">
-                        <a href="{{ url('/sport/' . $model->urlName($sousCategorie->nom)) }}">
+                        <a href="{{ route('sport', ['name' => \Illuminate\Support\Str::slug($sousCategorie->nom)]) }}">
                             {{ $sousCategorie->nom }}
                         </a>
                     </li>

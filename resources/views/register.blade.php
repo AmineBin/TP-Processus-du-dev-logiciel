@@ -8,9 +8,10 @@
     <title>Création de compte</title>
 
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/register.css') }}">
 </head>
 
-<body>
+<body class="register-page">
 
 <header class="header">
     <h1>Création de compte</h1>
@@ -18,9 +19,14 @@
 
 <main class="container">
 
-    <form method="POST" action="{{ url('/register') }}" class="card form-card">
+    <form method="POST" action="{{ route('register.store') }}" class="card form-card register-form">
 
         @csrf
+
+        {{-- Erreurs métier globales : rôle absent, conflit ou indisponibilité. --}}
+        @if (session('error'))
+            <p class="error-message">{{ session('error') }}</p>
+        @endif
 
         <!-- Affichage des erreurs -->
         @if ($errors->any())
@@ -44,32 +50,6 @@
             >
         </div>
 
-        <!-- Nom -->
-        <div>
-            <label for="last_name">Nom</label>
-            <input
-                type="text"
-                id="last_name"
-                name="last_name"
-                value="{{ old('last_name') }}"
-                placeholder="Brando"
-                required
-            >
-        </div>
-
-        <!-- Prénom -->
-        <div>
-            <label for="first_name">Prénom</label>
-            <input
-                type="text"
-                id="first_name"
-                name="first_name"
-                value="{{ old('first_name') }}"
-                placeholder="Diego"
-                required
-            >
-        </div>
-
         <!-- Adresse mail -->
         <div>
             <label for="email">Adresse mail</label>
@@ -83,6 +63,30 @@
             >
         </div>
 
+        <!-- Nom -->
+        <div>
+            <label for="last_name">Nom (facultatif)</label>
+            <input
+                type="text"
+                id="last_name"
+                name="last_name"
+                value="{{ old('last_name') }}"
+                placeholder="Brando"
+            >
+        </div>
+
+        <!-- Prénom -->
+        <div>
+            <label for="first_name">Prénom (facultatif)</label>
+            <input
+                type="text"
+                id="first_name"
+                name="first_name"
+                value="{{ old('first_name') }}"
+                placeholder="Diego"
+            >
+        </div>
+
         <!-- Téléphone -->
         <div>
             <label for="phone">Numéro de téléphone</label>
@@ -92,7 +96,8 @@
                 name="phone"
                 value="{{ old('phone') }}"
                 inputmode="tel"
-                placeholder="06 12 34 56 78"
+                maxlength="10"
+                placeholder="0612345678"
                 required
             >
         </div>
@@ -142,7 +147,7 @@
 
         <p>
             Déjà inscrit ?
-            <a href="{{ url('/login') }}">Se connecter</a>
+            <a href="{{ route('login') }}">Se connecter</a>
         </p>
 
     </form>

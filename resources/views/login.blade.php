@@ -19,7 +19,7 @@
 
 <main class="container">
 
-    <form method="POST" action="{{ url('/login') }}" class="card form-card">
+    <form method="POST" action="{{ route('login.store') }}" class="card form-card">
 
         @csrf
 
@@ -68,7 +68,7 @@
 
         <p>
             Pas encore de compte ?
-            <a href="{{ url('/register') }}">Créer un compte</a>
+            <a href="{{ route('register') }}">Créer un compte</a>
         </p>
 
     </form>
