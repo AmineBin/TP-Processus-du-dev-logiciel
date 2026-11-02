@@ -1,38 +1,28 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TournamentController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
 
-Route::get('/', function () {
-    return redirect('/home');
-});
+// Ce fichier ne déclare que les URL, leurs contrôleurs et les contrôles d’accès.
+Route::middleware('active')->group(function (): void {
+    Route::get('/', [UserController::class, 'index'])->name('index');
 
-Route::get('/home', function () {
-    $categories = [
-        'Jeux Vidéo' => ['Combat', 'FPS', 'Speed-run'],
-        'Sports individuels' => ['Tennis', 'Natation', 'Athlétisme'],
-        'Sports collectifs' => ['Football', 'Basketball', 'Rugby'],
-    ];
+    Route::middleware('guest')->group(function (): void {
+        Route::get('/login', [UserController::class, 'showLoginForm'])->name('login');
+        Route::post('/login', [UserController::class, 'login'])->middleware('throttle:6,1')->name('login.store');
+        Route::get('/register', [UserController::class, 'showRegistrationForm'])->name('register');
+        Route::post('/register', [UserController::class, 'register'])->name('register.store');
+    });
 
-    $model = new class
-    {
-        public function urlName(string $name): string
-        {
-            return Str::slug($name);
-        }
-    };
-
-    return view('home', compact('categories', 'model'));
-});
-
-Route::get('/sport/{name?}', function (?string $name = null) {
-    return view('sport', ['name' => $name ?? 'Sports']);
-});
-
-Route::get('/login/', function (?string $name = null) {
-    return view('login');
-});
-
-Route::get('/register', function () {
-    return view('register');
+    Route::middleware('auth')->group(function (): void {
+        Route::post('/logout', [UserController::class, 'logout'])->name('logout');
+        Route::get('/home', [HomeController::class, 'index'])->name('home');
+        Route::get('/sport/{name?}', [TournamentController::class, 'index'])->name('sport');
+        Route::get('/tournoi/{id}/inscription', [TournamentController::class, 'showRegistration'])
+            ->whereNumber('id')->name('tournament.registration');
+        Route::post('/tournoi/{id}/inscription', [TournamentController::class, 'register'])
+            ->whereNumber('id')->name('tournament.registration.store');
+    });
 });
