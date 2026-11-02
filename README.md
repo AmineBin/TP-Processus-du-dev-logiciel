@@ -85,9 +85,36 @@ cp .env.example .env
 php artisan key:generate
 docker compose up -d
 php artisan migrate
+php artisan db:seed --class=RoleSeeder
 ```
 
 Attendez que MySQL soit prêt avant de lancer les migrations (`docker compose ps` doit indiquer `healthy`). Si la connexion échoue au premier essai, patientez quelques secondes et réessayez.
+
+Le seeder `RoleSeeder` initialise uniquement les rôles nécessaires à la création de
+compte, sans créer ou modifier d’utilisateurs. Il est réexécutable sans changer les
+IDs existants. Les seeders de démonstration sont réservés au développement ; les
+comptes déjà présents conservent leurs mots de passe et leurs rôles.
+
+## Données de démonstration
+
+Pour découvrir le frontend avec 15 tournois, 13 catégories et 20 inscriptions :
+
+```bash
+php artisan db:seed --class=DemoSeeder
+```
+
+Se connecter avec **`demo.visiteur@example.test` / `DemoTournois2026!`**.
+Le seed ne supprime pas les données et ne réinitialise pas les comptes existants.
+Il actualise les dates des tournois de démonstration et ne fonctionne qu’en
+`local` ou `testing`. Voir [les scénarios et précautions](docs/demo-data.md).
+
+## Documentation technique
+
+- [Schémas Mermaid : fichiers et parcours d’authentification](docs/auth-diagrams.md)
+- [Architecture de l’authentification et correction des rôles](docs/authentication.md)
+- [Contrat frontend : formulaires, session et réponses JSON](docs/auth-frontend.md)
+- [Catalogue des codes d’erreur](docs/errors.md)
+- [Jeu de démonstration et scénarios du frontend](docs/demo-data.md)
 
 ## Lancement
 

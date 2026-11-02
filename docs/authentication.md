@@ -104,8 +104,10 @@ Si `UTILISATEUR` manque encore, l’inscription est refusée proprement avec
 Elle ne tente pas d’insérer un utilisateur avec un rôle inexistant.
 
 Ne pas utiliser `migrate:fresh` pour cette réparation : cela supprimerait les données.
-Ne pas utiliser le `DatabaseSeeder` complet sur des comptes réels : il contient des
-comptes de démonstration dont il réinitialise les mots de passe.
+Les seeders de démonstration restent réservés au développement. Le `DatabaseSeeder`
+crée désormais ses comptes uniquement s’ils manquent, sans réinitialiser les mots de
+passe, rôles ou états actifs existants. Pour un frontend entièrement peuplé, voir
+[le jeu de démonstration complet](demo-data.md).
 
 ## Vérifications et couverture documentaire
 
