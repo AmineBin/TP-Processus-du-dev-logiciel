@@ -39,3 +39,5 @@ Route::post('/login', [UserController::class, 'login']);
 Route::get('/register', function () {
     return view('register');
 });
+
+Route::post('/register', [UserController::class, 'create_user']);

@@ -19,18 +19,18 @@
         @csrf
 
         <div>
-            <label for="name">Pseudo</label>
-            <input type="text" id="name" name="name" placeholder="Dio" required>
+            <label for="username">Pseudo</label>
+            <input type="text" id="username" name="username" placeholder="Dio" required>
         </div>
 
         <div>
-            <label for="name">Nom</label>
-            <input type="text" id="name" name="name" placeholder="Diego" required>
+            <label for="last_name">Nom</label>
+            <input type="text" id="last_name" name="last_name" placeholder="Diego" required>
         </div>
 
         <div>
-            <label for="name">Prénom</label>
-            <input type="text" id="name" name="name" placeholder="Brando" required>
+            <label for="first_name">Prénom</label>
+            <input type="text" id="first_name" name="first_name" placeholder="Brando" required>
         </div>
 
         <div>
@@ -40,12 +40,12 @@
 
         <div>
             <label for="tel">Numéro de téléphone</label>
-            <input type="tel" id="tel" name="tel" inputmode="tel" pattern="0[1-9](?:[ .-]?[0-9]{2}){4}" placeholder="06 12 34 56 78" required>
+            <input type="tel" id="phone" name="phone" inputmode="tel" pattern="0[1-9](?:[ .-]?[0-9]{2}){4}" placeholder="06 12 34 56 78" required>
         </div>
 
         <div>
-            <label for="date">Date de naissance</label>
-            <input type="date" id="date" name="date" value="2018-07-22" required>
+            <label for="birth_date">Date de naissance</label>
+            <input type="date" id="birth_date" name="birth_date" required>
         </div>
 
         <div>
