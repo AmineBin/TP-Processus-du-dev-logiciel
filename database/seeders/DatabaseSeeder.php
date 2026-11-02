@@ -17,25 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         DB::transaction(function (): void {
-            $roles = [
-                [
-                    'code' => 'UTILISATEUR',
-                    'libelle' => 'Utilisateur',
-                    'description' => 'Utilisateur standard de la plateforme',
-                ],
-                [
-                    'code' => 'ADMIN',
-                    'libelle' => 'Administrateur',
-                    'description' => 'Administrateur de la plateforme',
-                ],
-            ];
-
-            foreach ($roles as $role) {
-                DB::table('role_utilisateur')->updateOrInsert(
-                    ['code' => $role['code']],
-                    $role
-                );
-            }
+            $this->call(RoleSeeder::class);
 
             $inscriptionStatuses = [
                 ['code' => 'EN_ATTENTE', 'libelle' => 'En attente'],
@@ -97,8 +79,8 @@ class DatabaseSeeder extends Seeder
                 ->where('code', 'ADMIN')
                 ->value('id');
 
-            DB::table('utilisateur')->updateOrInsert(
-                ['email' => 'test@example.com'],
+            $this->createUserIfMissing(
+                'test@example.com',
                 [
                     'nom_utilisateur' => 'testeur',
                     'mot_de_passe_hash' => Hash::make('password'),
@@ -111,8 +93,8 @@ class DatabaseSeeder extends Seeder
                 ]
             );
 
-            DB::table('utilisateur')->updateOrInsert(
-                ['email' => 'admin@example.com'],
+            $this->createUserIfMissing(
+                'admin@example.com',
                 [
                     'nom_utilisateur' => 'admin',
                     'mot_de_passe_hash' => Hash::make('password'),
@@ -150,5 +132,33 @@ class DatabaseSeeder extends Seeder
                 ]
             );
         });
+    }
+
+    /**
+     * Conserve les comptes existants, leurs mots de passe, rôles et état actif.
+     * Un pseudo déjà pris par un autre compte reçoit un suffixe de démonstration.
+     *
+     * @param  array<string, mixed>  $attributes  Données du nouveau compte uniquement.
+     */
+    public function createUserIfMissing(string $email, array $attributes): int
+    {
+        $existingId = DB::table('utilisateur')->where('email', $email)->value('id');
+
+        if ($existingId !== null) {
+            return (int) $existingId;
+        }
+
+        $username = $attributes['nom_utilisateur'];
+        $suffix = 1;
+
+        while (DB::table('utilisateur')->where('nom_utilisateur', $username)->exists()) {
+            $username = $attributes['nom_utilisateur'].'_demo_'.$suffix++;
+        }
+
+        return DB::table('utilisateur')->insertGetId([
+            ...$attributes,
+            'email' => $email,
+            'nom_utilisateur' => $username,
+        ]);
     }
 }
