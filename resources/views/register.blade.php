@@ -33,12 +33,12 @@
 
         <!-- Pseudo -->
         <div>
-            <label for="nom_utilisateur">Pseudo</label>
+            <label for="username">Pseudo</label>
             <input
                 type="text"
-                id="nom_utilisateur"
-                name="nom_utilisateur"
-                value="{{ old('nom_utilisateur') }}"
+                id="username"
+                name="username"
+                value="{{ old('username') }}"
                 placeholder="Dio"
                 required
             >
@@ -46,12 +46,12 @@
 
         <!-- Nom -->
         <div>
-            <label for="nom">Nom</label>
+            <label for="last_name">Nom</label>
             <input
                 type="text"
-                id="nom"
-                name="nom"
-                value="{{ old('nom') }}"
+                id="last_name"
+                name="last_name"
+                value="{{ old('last_name') }}"
                 placeholder="Brando"
                 required
             >
@@ -59,12 +59,12 @@
 
         <!-- Prénom -->
         <div>
-            <label for="prenom">Prénom</label>
+            <label for="first_name">Prénom</label>
             <input
                 type="text"
-                id="prenom"
-                name="prenom"
-                value="{{ old('prenom') }}"
+                id="first_name"
+                name="first_name"
+                value="{{ old('first_name') }}"
                 placeholder="Diego"
                 required
             >
@@ -85,12 +85,12 @@
 
         <!-- Téléphone -->
         <div>
-            <label for="numero_telephone">Numéro de téléphone</label>
+            <label for="phone">Numéro de téléphone</label>
             <input
                 type="tel"
-                id="numero_telephone"
-                name="numero_telephone"
-                value="{{ old('numero_telephone') }}"
+                id="phone"
+                name="phone"
+                value="{{ old('phone') }}"
                 inputmode="tel"
                 placeholder="06 12 34 56 78"
                 required
@@ -99,12 +99,12 @@
 
         <!-- Date de naissance -->
         <div>
-            <label for="date_naissance">Date de naissance</label>
+            <label for="birth_date">Date de naissance</label>
             <input
                 type="date"
-                id="date_naissance"
-                name="date_naissance"
-                value="{{ old('date_naissance') }}"
+                id="birth_date"
+                name="birth_date"
+                value="{{ old('birth_date') }}"
                 required
             >
         </div>
@@ -116,7 +116,7 @@
                 type="password"
                 id="password"
                 name="password"
-                minlength="6"
+                minlength="8"
                 required
             >
         </div>
@@ -130,7 +130,7 @@
                 type="password"
                 id="password_confirmation"
                 name="password_confirmation"
-                minlength="6"
+                minlength="8"
                 required
             >
         </div>

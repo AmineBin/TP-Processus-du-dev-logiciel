@@ -6,9 +6,27 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+	protected $table = 'utilisateur';
+
+	protected $authPasswordName = 'mot_de_passe_hash';
+
+	protected $hidden = ['mot_de_passe_hash'];
+
+	public $timestamps = false;
+
+	protected $fillable = [
+		'nom_utilisateur',
+		'mot_de_passe_hash',
+		'date_naissance',
+		'email',
+		'numero_telephone',
+		'prenom',
+		'nom',
+		'role_id',
+	];
+
 	public function __construct(array $attributes = [])
 	{
 		parent::__construct($attributes);
 	}
 }
-

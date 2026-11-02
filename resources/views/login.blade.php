@@ -29,6 +29,10 @@
             </p>
         @endif
 
+        @if (session('error'))
+            <p class="error">{{ session('error') }}</p>
+        @endif
+
         @if ($errors->any())
             <p class="error">
                 {{ $errors->first() }}

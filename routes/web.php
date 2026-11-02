@@ -1,10 +1,10 @@
-
 <?php
 
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
 
@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 
 Route::get('/', function () {
 
-    if (session()->has('utilisateur_id')) {
+    if (Auth::check()) {
         return redirect('/home');
     }
 
@@ -28,22 +28,17 @@ Route::get('/', function () {
 
 Route::get('/home', function (Request $request) {
 
-    $utilisateurId = $request->session()->get('utilisateur_id');
+    $utilisateur = $request->user();
 
-    if (!$utilisateurId) {
+    if (!$utilisateur) {
         return redirect('/login')->with(
             'error',
             'Connecte-toi pour accéder aux tournois.'
         );
     }
 
-    $utilisateur = DB::table('utilisateur')
-        ->where('id', $utilisateurId)
-        ->where('est_actif', true)
-        ->first();
-
-    if (!$utilisateur) {
-        $request->session()->forget('utilisateur_id');
+    if (!$utilisateur->est_actif) {
+        Auth::logout();
 
         return redirect('/login')->with(
             'error',
@@ -83,22 +78,17 @@ Route::get('/sport/{name?}', function (
     ?string $name = null
 ) {
 
-    $utilisateurId = $request->session()->get('utilisateur_id');
+    $utilisateur = $request->user();
 
-    if (!$utilisateurId) {
+    if (!$utilisateur) {
         return redirect('/login')->with(
             'error',
             'Connecte-toi pour accéder aux tournois.'
         );
     }
 
-    $utilisateur = DB::table('utilisateur')
-        ->where('id', $utilisateurId)
-        ->where('est_actif', true)
-        ->first();
-
-    if (!$utilisateur) {
-        $request->session()->forget('utilisateur_id');
+    if (!$utilisateur->est_actif) {
+        Auth::logout();
 
         return redirect('/login')->with(
             'error',
@@ -147,21 +137,13 @@ Route::get('/sport/{name?}', function (
 // PAGE DE CONNEXION
 // ============================================
 
-Route::get('/login', function () {
+Route::get('/login', function (Request $request) {
 
-    if (session()->has('utilisateur_id')) {
-
-        $utilisateur = DB::table('utilisateur')
-            ->where('id', session('utilisateur_id'))
-            ->where('est_actif', true)
-            ->first();
-
-        if ($utilisateur) {
-            return redirect('/home');
-        }
-
-        session()->forget('utilisateur_id');
+    if ($request->user()?->est_actif) {
+        return redirect('/home');
     }
+
+    Auth::logout();
 
     return view('login');
 });
@@ -171,49 +153,7 @@ Route::get('/login', function () {
 // TRAITEMENT DE LA CONNEXION
 // ============================================
 
-Route::post('/login', function (Request $request) {
-
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required'
-    ]);
-
-    $utilisateur = DB::table('utilisateur')
-        ->where('email', $request->email)
-        ->first();
-
-    if (
-        !$utilisateur ||
-        !Hash::check(
-            $request->password,
-            $utilisateur->mot_de_passe_hash
-        )
-    ) {
-
-        return back()->withErrors([
-            'email' => 'Adresse e-mail ou mot de passe incorrect.'
-        ]);
-    }
-
-    if (!$utilisateur->est_actif) {
-
-        return back()->withErrors([
-            'email' => 'Ce compte est désactivé.'
-        ]);
-    }
-
-    $request->session()->regenerate();
-
-    $request->session()->put(
-        'utilisateur_id',
-        $utilisateur->id
-    );
-
-    return redirect('/home')->with(
-        'success',
-        'Connexion réussie !'
-    );
-});
+Route::post('/login', [UserController::class, 'login']);
 
 
 // ============================================
@@ -222,11 +162,11 @@ Route::post('/login', function (Request $request) {
 
 Route::post('/logout', function (Request $request) {
 
-    $request->session()->forget('utilisateur_id');
-
-    $request->session()->regenerateToken();
+    Auth::logout();
 
     $request->session()->invalidate();
+
+    $request->session()->regenerateToken();
 
     return redirect('/login')->with(
         'success',
@@ -244,22 +184,19 @@ Route::get('/tournoi/{id}/inscription', function (
     $id
 ) {
 
-    $utilisateurId = $request->session()->get('utilisateur_id');
+    $utilisateur = $request->user();
 
-    if (!$utilisateurId) {
+    if (!$utilisateur) {
         return redirect('/login')->with(
             'error',
             'Connecte-toi pour participer à un tournoi.'
         );
     }
 
-    $utilisateur = DB::table('utilisateur')
-        ->where('id', $utilisateurId)
-        ->where('est_actif', true)
-        ->first();
+    $utilisateurId = $utilisateur->id;
 
-    if (!$utilisateur) {
-        $request->session()->forget('utilisateur_id');
+    if (!$utilisateur->est_actif) {
+        Auth::logout();
 
         return redirect('/login')->with(
             'error',
@@ -297,22 +234,19 @@ Route::post('/tournoi/{id}/inscription', function (
     $id
 ) {
 
-    $utilisateurId = $request->session()->get('utilisateur_id');
+    $utilisateur = $request->user();
 
-    if (!$utilisateurId) {
+    if (!$utilisateur) {
         return redirect('/login')->with(
             'error',
             'Connecte-toi pour participer à un tournoi.'
         );
     }
 
-    $utilisateur = DB::table('utilisateur')
-        ->where('id', $utilisateurId)
-        ->where('est_actif', true)
-        ->first();
+    $utilisateurId = $utilisateur->id;
 
-    if (!$utilisateur) {
-        $request->session()->forget('utilisateur_id');
+    if (!$utilisateur->est_actif) {
+        Auth::logout();
 
         return redirect('/login')->with(
             'error',
@@ -397,37 +331,4 @@ Route::get('/register', function () {
 
 // ENREGISTRER LE NOUVEAU COMPTE (POST)
 
-Route::post('/register', function (Request $request) {
-
-    $request->validate([
-        'nom_utilisateur' => 'required|string|max:100',
-        'nom' => 'required|string|max:100',
-        'prenom' => 'required|string|max:100',
-        'email' => 'required|email|max:255|unique:utilisateur,email',
-        'numero_telephone' => 'required|string|max:20',
-        'date_naissance' => 'required|date|before:today',
-        'password' => 'required|string|min:6|confirmed',
-    ], [
-        'email.unique' => 'Cette adresse mail possède déjà un compte.',
-        'password.confirmed' => 'Les deux mots de passe ne correspondent pas.',
-        'date_naissance.before' => 'La date de naissance doit être dans le passé.',
-    ]);
-
-    DB::table('utilisateur')->insert([
-        'nom_utilisateur' => $request->nom_utilisateur,
-        'nom' => $request->nom,
-        'prenom' => $request->prenom,
-        'email' => $request->email,
-        'numero_telephone' => $request->numero_telephone,
-        'date_naissance' => $request->date_naissance,
-        'mot_de_passe_hash' => Hash::make($request->password),
-        'date_creation' => now(),
-        'est_actif' => true,
-        'role_id' => 1,
-    ]);
-
-    return redirect('/login')->with(
-        'success',
-        'Ton compte a bien été créé ! Tu peux maintenant te connecter.'
-    );
-});
+Route::post('/register', [UserController::class, 'create_user']);
