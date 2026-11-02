@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -5,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Tournois</title>
 
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
 <body>
@@ -17,23 +18,31 @@
 
 <main class="container">
 
-    @foreach ($categories as $type => $items)
+    @foreach ($categories as $categorie)
 
         <section class="section">
 
-            <h2>{{ $type }}</h2>
+            <h2>{{ $categorie->nom }}</h2>
+
+            <p>{{ $categorie->description }}</p>
 
             <ul class="grid">
 
-                @foreach ($items as $name)
+                @forelse ($categorie->sous_categories as $sousCategorie)
 
                     <li class="card">
-                        <a href="/sport/{{ $model->urlName($name) }}">
-                            {{ $name }}
+                        <a href="{{ url('/sport/' . $model->urlName($sousCategorie->nom)) }}">
+                            {{ $sousCategorie->nom }}
                         </a>
                     </li>
 
-                @endforeach
+                @empty
+
+                    <li class="card">
+                        Aucune sous-catégorie disponible.
+                    </li>
+
+                @endforelse
 
             </ul>
 
