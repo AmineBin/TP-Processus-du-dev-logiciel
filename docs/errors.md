@@ -38,6 +38,17 @@ Les statuts de la table concernent le JSON, pas les redirections HTML.
 | `TOURNAMENT_FULL` | 409 | Désolé, ce tournoi est complet. Seules les participations actives réservent une place. |
 | `TOURNAMENT_REGISTRATION_UNAVAILABLE` | 503 | Les inscriptions sont temporairement indisponibles. Réessaie plus tard. Référentiel absent ou état non réactivable. |
 | `TOURNAMENT_REGISTRATION_FAILED` | 503 | L’inscription n’a pas pu être enregistrée. Réessaie plus tard. Transaction annulée, détail SQL journalisé. |
+| `ADMIN_REQUIRED` | 403 | Cette action est réservée aux administrateurs. |
+| `ORGANIZER_REQUEST_NOT_FOUND` | 404 | Demande introuvable. |
+| `ORGANIZER_REQUEST_CONFLICT` | 409 | Une demande en attente utilise déjà cette adresse e-mail ou ce pseudo. |
+| `ORGANIZER_REQUEST_ACCOUNT_CONFLICT` | 409 | Un compte utilise déjà cette identité. Aucun compte existant n’a été modifié. |
+| `ORGANIZER_REQUEST_ALREADY_PROCESSED` | 409 | Cette demande a déjà été traitée. |
+| `ORGANIZER_REQUEST_INVALID_ROLE` | 409 | Cette demande ne concerne pas le rôle organisateur. |
+| `ORGANIZER_REQUEST_INCOMPLETE` | 409 | Les informations de cette demande ne permettent pas de créer un compte valide. |
+| `CSRF_TOKEN_MISMATCH` | 419 | La session a expiré. Recharge le formulaire puis réessaie. Contrat du module de demandes organisateur. |
+| `ORGANIZER_REQUEST_RATE_LIMITED` | 429 | Trop de demandes. Réessaie dans une minute. |
+| `ORGANIZER_REQUEST_ROLE_UNAVAILABLE` | 503 | Les demandes organisateur sont temporairement indisponibles. |
+| `ORGANIZER_REQUEST_FAILED` | 503 | La demande n’a pas pu être enregistrée ou traitée. Réessaie plus tard. |
 | `UNKNOWN_ERROR` | — | Une erreur est survenue. Réessaie plus tard. Repli du catalogue, sans statut implicite. |
 
 Les doublons détectés par `RegisterRequest` sont des validations HTTP 422. Le code
@@ -68,13 +79,17 @@ Laravel remplace les paramètres `:attribute`, `:min` et `:max`.
 | `PASSWORD_CONFIRMATION` | Les deux mots de passe ne correspondent pas. |
 | `EMAIL_TAKEN` | Cette adresse e-mail possède déjà un compte. |
 | `USERNAME_TAKEN` | Ce pseudo est déjà utilisé. |
+| `PASSWORD_TOO_LONG` | Le mot de passe ne doit pas dépasser 72 octets avec bcrypt. |
+| `FIELD_PROHIBITED` | Le champ :attribute ne doit pas être fourni. |
+| `ORGANIZER_INVALID_STATUS` | Le statut doit être EN_ATTENTE, APPROUVEE ou REFUSEE. |
 
 ## Limites et exploitation
 
 Ce catalogue n’est pas un remplacement du gestionnaire d’exceptions Laravel.
-Les erreurs CSRF (419), routes introuvables (404), validations ne passant pas par
-`ValidatedRequest` et autres exceptions non traitées conservent le fonctionnement
-Laravel. La création de tournois et leurs inscriptions utilisent ce catalogue,
+Le module [demandes organisateur](organizer-approval.md) adapte ses erreurs CSRF
+et demandes introuvables au catalogue JSON. Ailleurs, les erreurs CSRF (419),
+routes introuvables (404), validations ne passant pas par `ValidatedRequest` et
+autres exceptions non traitées conservent le fonctionnement Laravel. La création de tournois et leurs inscriptions utilisent ce catalogue,
 avec retour au formulaire ou au détail pour les réponses HTML.
 
 Le contrôleur ne renvoie pas les requêtes SQL, hachages ou traces des exceptions

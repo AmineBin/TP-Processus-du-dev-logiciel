@@ -117,6 +117,7 @@ Il actualise les dates des tournois de démonstration et ne fonctionne qu’en
 - [Jeu de démonstration et scénarios du frontend](docs/demo-data.md)
 - [Création de tournois : accès organisateur, formulaire et validation](docs/tournament-creation.md)
 - [Profil, statuts d’inscription, réinscription et nettoyage du prototype](docs/profile-and-registrations.md)
+- [Demandes organisateur : dépôt, liste admin, approbation/refus et contrat JSON](docs/organizer-approval.md)
 
 ## Lancement
 

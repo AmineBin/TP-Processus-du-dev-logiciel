@@ -36,6 +36,10 @@ Les traitements déjà présents de catégories et de tournois ont été déplac
 [dans leur contrat dédié](profile-and-registrations.md) : slugs de catégories,
 statuts résolus par code, participations annulées et protection des places.
 
+Les futurs organisateurs disposent aussi d’un [parcours de préinscription avec validation admin](organizer-approval.md).
+Le dépôt reste dans `demande_inscription` ; le compte n’est créé qu’après approbation.
+La connexion existante ne permet pas de choisir ou de s’attribuer un rôle.
+
 ## Ordre des traitements
 
 1. Laravel démarre la session et vérifie le CSRF des requêtes modifiant l’état.
