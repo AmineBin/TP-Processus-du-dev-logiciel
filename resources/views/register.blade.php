@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -23,12 +22,10 @@
 
         @csrf
 
-        {{-- Erreurs métier globales : rôle absent, conflit ou indisponibilité. --}}
         @if (session('error'))
             <p class="error-message">{{ session('error') }}</p>
         @endif
 
-        <!-- Affichage des erreurs -->
         @if ($errors->any())
             <div class="error-message">
                 @foreach ($errors->all() as $error)
@@ -40,110 +37,82 @@
         <!-- Pseudo -->
         <div>
             <label for="username">Pseudo</label>
-            <input
-                type="text"
-                id="username"
-                name="username"
-                value="{{ old('username') }}"
-                placeholder="Dio"
-                required
-            >
+            <input type="text" id="username" name="username"
+                value="{{ old('username') }}" placeholder="Dio" required>
         </div>
 
         <!-- Adresse mail -->
         <div>
             <label for="email">Adresse mail</label>
-            <input
-                type="email"
-                id="email"
-                name="email"
-                value="{{ old('email') }}"
-                placeholder="dio.brando@gmail.com"
-                required
-            >
+            <input type="email" id="email" name="email"
+                value="{{ old('email') }}" placeholder="dio.brando@gmail.com" required>
         </div>
 
         <!-- Nom -->
         <div>
             <label for="last_name">Nom (facultatif)</label>
-            <input
-                type="text"
-                id="last_name"
-                name="last_name"
-                value="{{ old('last_name') }}"
-                placeholder="Brando"
-            >
+            <input type="text" id="last_name" name="last_name"
+                value="{{ old('last_name') }}" placeholder="Brando">
         </div>
 
         <!-- Prénom -->
         <div>
             <label for="first_name">Prénom (facultatif)</label>
-            <input
-                type="text"
-                id="first_name"
-                name="first_name"
-                value="{{ old('first_name') }}"
-                placeholder="Diego"
-            >
+            <input type="text" id="first_name" name="first_name"
+                value="{{ old('first_name') }}" placeholder="Diego">
         </div>
 
         <!-- Téléphone -->
         <div>
             <label for="phone">Numéro de téléphone</label>
-            <input
-                type="tel"
-                id="phone"
-                name="phone"
-                value="{{ old('phone') }}"
-                inputmode="tel"
-                maxlength="10"
-                placeholder="0612345678"
-                required
-            >
+            <input type="tel" id="phone" name="phone"
+                value="{{ old('phone') }}" inputmode="tel"
+                maxlength="10" placeholder="0612345678" required>
         </div>
 
         <!-- Date de naissance -->
         <div>
             <label for="birth_date">Date de naissance</label>
-            <input
-                type="date"
-                id="birth_date"
-                name="birth_date"
-                value="{{ old('birth_date') }}"
-                required
-            >
+            <input type="date" id="birth_date" name="birth_date"
+                value="{{ old('birth_date') }}" required>
+        </div>
+
+        <!-- Choix du rôle -->
+        <div class="role-selection">
+            <label>Je souhaite créer un compte en tant que :</label>
+
+            <div class="role-options">
+                <label class="role-option">
+                    <input type="radio" name="role" value="UTILISATEUR"
+                        {{ old('role', 'UTILISATEUR') === 'UTILISATEUR' ? 'checked' : '' }}>
+                    <span>Utilisateur</span>
+                    <small>Participer aux tournois</small>
+                </label>
+
+                <label class="role-option">
+                    <input type="radio" name="role" value="ORGANISATEUR"
+                        {{ old('role') === 'ORGANISATEUR' ? 'checked' : '' }}>
+                    <span>Organisateur</span>
+                    <small>Créer et gérer des tournois</small>
+                </label>
+            </div>
         </div>
 
         <!-- Mot de passe -->
         <div>
             <label for="password">Mot de passe</label>
-            <input
-                type="password"
-                id="password"
-                name="password"
-                minlength="8"
-                required
-            >
+            <input type="password" id="password" name="password"
+                minlength="8" required>
         </div>
 
-        <!-- Confirmation du mot de passe -->
+        <!-- Confirmation -->
         <div>
-            <label for="password_confirmation">
-                Confirmer le mot de passe
-            </label>
-            <input
-                type="password"
-                id="password_confirmation"
-                name="password_confirmation"
-                minlength="8"
-                required
-            >
+            <label for="password_confirmation">Confirmer le mot de passe</label>
+            <input type="password" id="password_confirmation"
+                name="password_confirmation" minlength="8" required>
         </div>
 
-        <!-- Bouton -->
-        <button type="submit">
-            Créer mon compte
-        </button>
+        <button type="submit">Créer mon compte</button>
 
         <p>
             Déjà inscrit ?
