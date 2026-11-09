@@ -116,6 +116,7 @@ Il actualise les dates des tournois de démonstration et ne fonctionne qu’en
 - [Catalogue des codes d’erreur](docs/errors.md)
 - [Jeu de démonstration et scénarios du frontend](docs/demo-data.md)
 - [Création de tournois : accès organisateur, formulaire et validation](docs/tournament-creation.md)
+- [Profil, statuts d’inscription, réinscription et nettoyage du prototype](docs/profile-and-registrations.md)
 
 ## Lancement
 
@@ -123,6 +124,11 @@ Il actualise les dates des tournois de démonstration et ne fonctionne qu’en
 docker compose up -d
 php artisan serve
 ```
+
+Le point d’entrée est `public/index.php`, via `php artisan serve`. L’ancien
+prototype (`Models/`, `Controller/`, `Vue/`, `css/` et `index.php` à la racine) a été
+retiré ; ne pas le confondre avec les dossiers Laravel sous `app/`, `resources/`
+et `public/`.
 
 L'application est accessible sur http://localhost:8000. Exécutez les commandes Laravel directement sur votre machine, par exemple `php artisan migrate` ou `php artisan test`. MySQL écoute uniquement en local sur le port `3307`.
 

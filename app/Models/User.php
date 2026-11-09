@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /** Utilisateur authentifiable, adapté aux noms de colonnes du schéma existant. */
@@ -51,5 +53,18 @@ class User extends Authenticatable
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    /** @return HasMany<TournamentRegistration, $this> Inscriptions du compte, y compris l’historique annulé. */
+    public function registrations(): HasMany
+    {
+        return $this->hasMany(TournamentRegistration::class, 'utilisateur_id');
+    }
+
+    /** @return BelongsToMany<Tournament, $this> Tournois liés au compte avec leur pivot. */
+    public function tournois(): BelongsToMany
+    {
+        return $this->belongsToMany(Tournament::class, 'inscription', 'utilisateur_id', 'tournoi_id')
+            ->withPivot('id', 'date_inscription', 'statut_id');
     }
 }

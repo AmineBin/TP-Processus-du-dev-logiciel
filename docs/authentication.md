@@ -32,9 +32,9 @@ Pour une lecture visuelle, voir les [schémas Mermaid des fichiers et des parcou
 
 Les traitements déjà présents de catégories et de tournois ont été déplacés vers
 `HomeController` et `TournamentController`. Ils ne doivent pas rejoindre
-`UserController`. Leur refonte métier reste hors de ce chantier : notamment les
-requêtes de catégories, la concurrence sur les places et le statut d’inscription
-encore identifié par `statut_id = 1`.
+`UserController`. Le profil et la gestion des inscriptions sont maintenant décrits
+[dans leur contrat dédié](profile-and-registrations.md) : slugs de catégories,
+statuts résolus par code, participations annulées et protection des places.
 
 ## Ordre des traitements
 

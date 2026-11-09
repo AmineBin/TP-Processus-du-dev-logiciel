@@ -79,8 +79,8 @@ par la base : ne pas supposer qu’un tournoi a un ID fixe.
 | --- | --- |
 | Tournoi FPS de démonstration | Inscription ouverte : 2 participants pour 32 places. |
 | Démo — Nuit Valorant | Autre tournoi ouvert, avec 3 participants pour 16 places. |
-| Démo — Football découverte complet | 8 participants pour 8 places : confirmer l’inscription affiche le refus pour capacité atteinte. |
-| Démo — Open tennis inscriptions closes | Tournoi futur, mais date limite dépassée : confirmer affiche le refus pour clôture. |
+| Démo — Football découverte complet | 8 participants pour 8 places : la liste affiche « complet » sans proposer d’inscription. Un POST direct est également refusé. |
+| Démo — Open tennis inscriptions closes | Tournoi futur, mais date limite dépassée : la liste et le détail expliquent la clôture ; le POST reste refusé. |
 | Démo — Open blitz échecs | Le compte de visite est déjà inscrit : la fiche affiche le message correspondant. |
 | Démo — Masters échecs | Tournoi dans deux jours, clôture demain. |
 | Démo — Arena Counter-Strike | Tournoi en cours, avec clôture passée. |
@@ -91,11 +91,14 @@ Les autres tournois servent à varier les textes, les règlements, les dates et 
 capacités visibles sur les cartes. Le poker utilise uniquement des jetons fictifs,
 sans argent réel.
 
-**Limite du frontend actuel :** `sport.blade.php` affiche encore le badge fixe
-« Tournoi disponible » et le lien d’inscription, indépendamment du statut SQL.
-Le seed ne change pas cette présentation. Les dates et descriptions permettent de
-repérer les scénarios ; les refus de capacité ou de clôture se voient après
-confirmation. La gestion des statuts dans les badges reste un chantier distinct.
+Le lien profil est disponible depuis l’accueil, la liste et le détail. Il affiche
+les informations du compte et ses participations, avec un bouton de déconnexion.
+Les badges de participation distinguent attente, confirmation et annulation ; une
+participation annulée ne réserve pas de place et peut être réactivée si le tournoi
+reste ouvert. Les nouveaux POST d’inscription créent un état « En attente », pas une
+confirmation immédiate. Le seed conserve ses 20 participations confirmées initiales.
+Voir [les règles de profil et d’inscription](profile-and-registrations.md).
+Le cycle du statut du tournoi lui-même reste distinct de ces badges.
 
 ## Réexécution et conservation des données
 

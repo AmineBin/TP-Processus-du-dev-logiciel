@@ -1,0 +1,347 @@
+
+/* ========================================
+   1. VARIABLES ET BASE
+   ======================================== */
+
+:root {
+    --bg: #0f1117;
+    --surface: #191d29;
+    --surface-hover: #222738;
+    --text: #eef0f7;
+    --muted: #9ba3b7;
+    --purple: #7867f0;
+    --purple-hover: #6352df;
+    --turquoise: #00cec9;
+    --border: #30364a;
+    --success: #22c55e;
+    --danger: #ef4444;
+    --radius: 14px;
+    --shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    font: inherit;
+    cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid var(--turquoise);
+    outline-offset: 3px;
+}
+
+/* ========================================
+   2. EN-TÊTE DU PROFIL
+   ======================================== */
+
+.header {
+    padding: 45px 20px;
+    text-align: center;
+    color: white;
+    background: linear-gradient(
+        125deg,
+        #5140c9,
+        #7867f0 55%,
+        #00bdb8
+    );
+}
+
+.header h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -1px;
+}
+
+.header p {
+    margin-top: 12px;
+    color: rgba(255, 255, 255, 0.92);
+}
+
+/* ========================================
+   3. CONTENU PRINCIPAL
+   ======================================== */
+
+.container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+
+.section {
+    margin-bottom: 40px;
+}
+
+.section h2 {
+    margin-bottom: 20px;
+    padding-left: 12px;
+    border-left: 4px solid var(--purple);
+    font-size: 1.4rem;
+}
+
+/* ========================================
+   4. INFORMATIONS PERSONNELLES
+   ======================================== */
+
+.profile-card {
+    padding: 30px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+}
+
+.profile-info {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.profile-item {
+    padding: 18px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg);
+    overflow-wrap: anywhere;
+}
+
+.profile-item .label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.profile-item .value {
+    color: var(--text);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+/* ========================================
+   5. MES INSCRIPTIONS
+   ======================================== */
+
+.tournament-list {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(min(100%, 260px), 1fr)
+    );
+    gap: 20px;
+}
+
+.tournament-card {
+    padding: 22px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    transition: 0.2s ease;
+}
+
+.tournament-card:hover {
+    border-color: var(--purple);
+    background: var(--surface-hover);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+}
+
+.tournament-card h3 {
+    margin-bottom: 12px;
+    font-size: 1.2rem;
+    overflow-wrap: anywhere;
+}
+
+.tournament-card p {
+    margin-top: 8px;
+    color: var(--muted);
+}
+
+.tournament-card strong {
+    color: var(--text);
+}
+
+.tournament-category {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 5px 12px;
+    border: 1px solid rgba(120, 103, 240, 0.4);
+    border-radius: 20px;
+    background: rgba(120, 103, 240, 0.12);
+    color: #c9c1ff;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+/* ========================================
+   6. AUCUNE INSCRIPTION
+   ======================================== */
+
+.empty {
+    padding: 30px 20px;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--muted);
+    text-align: center;
+}
+
+.empty p {
+    margin-bottom: 15px;
+}
+
+/* ========================================
+   7. BOUTONS
+   ======================================== */
+
+.button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.btn-profile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 12px 22px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    background: var(--purple);
+    color: white;
+    font-weight: 700;
+    text-align: center;
+    transition: 0.2s ease;
+}
+
+.btn-profile:hover {
+    background: var(--purple-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(120, 103, 240, 0.25);
+}
+
+.btn-logout {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 12px 22px;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    border-radius: 9px;
+    background: rgba(239, 68, 68, 0.1);
+    color: #fca5a5;
+    font-weight: 700;
+    transition: 0.2s ease;
+}
+
+.btn-logout:hover {
+    background: var(--danger);
+    color: white;
+}
+
+/* ========================================
+   8. LIEN RETOUR
+   ======================================== */
+
+.back {
+    display: inline-block;
+    margin-bottom: 25px;
+    color: var(--muted);
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.back:hover {
+    color: var(--turquoise);
+}
+
+/* ========================================
+   9. PIED DE PAGE
+   ======================================== */
+
+.footer {
+    margin-top: 30px;
+    padding: 24px 15px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* ========================================
+   10. RESPONSIVE
+   ======================================== */
+
+@media (max-width: 600px) {
+
+    .header {
+        padding: 38px 16px;
+    }
+
+    .container {
+        padding: 28px 16px;
+    }
+
+    .profile-card {
+        padding: 18px;
+    }
+
+    .profile-info {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .tournament-list {
+        grid-template-columns: 1fr;
+    }
+
+    .button-row {
+        flex-direction: column;
+    }
+
+    .btn-profile,
+    .btn-logout {
+        width: 100%;
+    }
+}
+
+/* ========================================
+   11. ACCESSIBILITÉ
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}

@@ -162,7 +162,8 @@ lignes revendiquée ni de CI ajoutée par cette correction.
 
 ## Limites hors périmètre
 
-La concurrence des inscriptions, l’ancien `statut_id = 1` dans leur traitement,
-les badges de statut statiques et les anciennes valeurs nulles ne sont pas refondus
-ici. Le profil utilisateur, l’approbation des organisateurs et la réinitialisation
-du mot de passe restent des fonctionnalités distinctes.
+Le profil et les inscriptions font l’objet d’une [intégration dédiée](profile-and-registrations.md),
+avec leurs statuts réels, la réactivation des annulations et une transaction verrouillant
+le tournoi. Les tests SQLite ne prouvent pas une concurrence MySQL réelle.
+L’approbation des organisateurs, le workflow des statuts de tournoi et la
+réinitialisation du mot de passe restent des fonctionnalités distinctes.
