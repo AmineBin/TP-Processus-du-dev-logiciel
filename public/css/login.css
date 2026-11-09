@@ -115,6 +115,28 @@ a {
     gap: 0.35rem;
 }
 
+.form-message {
+    max-width: 680px;
+    margin: 0 auto 1rem;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.form-message-success {
+    background: rgb(20 184 166 / 15%);
+    border-color: var(--accent-2);
+}
+
+.form-message-error {
+    background: rgb(239 68 68 / 15%);
+    border-color: #ef4444;
+}
+
+.form-message ul {
+    margin: 0.4rem 0 0 1.2rem;
+}
+
 .form-card .form-field-wide {
     grid-column: 1 / -1;
 }

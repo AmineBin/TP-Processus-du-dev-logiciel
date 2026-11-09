@@ -15,6 +15,25 @@
 </header>
 
 <main class="container">
+    @if (session('success'))
+        <p class="form-message form-message-success">{{ session('success') }}</p>
+    @endif
+
+    @if (session('error'))
+        <p class="form-message form-message-error">{{ session('error') }}</p>
+    @endif
+
+    @if ($errors->any())
+        <div class="form-message form-message-error">
+            <p>Le tournoi n'a pas été créé :</p>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form method="post" action="/tournament" class="card form-card">
         @csrf
 
