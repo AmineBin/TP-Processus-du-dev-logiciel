@@ -3,20 +3,37 @@
 <html lang="fr">
 
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Inscription au tournoi - {{ $tournoi->nom }}</title>
 
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-
 </head>
 
 <body>
 
-
 <header class="header">
+
+    {{-- Logo du profil --}}
+    <a href="{{ url('/profil') }}"
+       class="profile-link"
+       title="Mon profil"
+       aria-label="Accéder à mon profil">
+
+        <svg xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M5 21v-2a7 7 0 0 1 14 0v2"></path>
+
+        </svg>
+    </a>
 
     <h1>Inscription au tournoi</h1>
 
@@ -27,48 +44,33 @@
 
 <main class="container">
 
-
-    <a class="back" href="{{ url('/sport') }}">
-        Retour aux tournois
+    <a class="back" href="{{ url('/home') }}">
+        ← Retour à l'accueil
     </a>
 
 
-    {{-- Message de confirmation --}}
+    {{-- MESSAGE D'ERREUR --}}
 
-    @if (session('success'))
+    @if (session('error'))
 
-        <div class="success">
-
-            <h2>Inscription confirmée !</h2>
-
-            <p>
-                {{ session('success') }}
-            </p>
-
+        <div class="error">
+            {{ session('error') }}
         </div>
 
     @endif
 
 
-    {{-- Message d'erreur --}}
-
-    @if (session('error'))
-
-        <p class="error">
-            {{ session('error') }}
-        </p>
-
-    @endif
-
+    {{-- INFORMATIONS DU TOURNOI --}}
 
     <article class="tournament-card">
 
+        <div class="tournament-banner">
+            {{ strtoupper($tournoi->nom) }}
+        </div>
 
         <div class="tournament-content">
 
-
             <h2>{{ $tournoi->nom }}</h2>
-
 
             <p class="description">
                 {{ $tournoi->description }}
@@ -77,122 +79,105 @@
 
             <h3>Informations du tournoi</h3>
 
-
             <ul class="tournament-info">
 
                 <li>
-
                     <strong>Date de début :</strong>
-
                     {{ \Carbon\Carbon::parse($tournoi->date_debut)->format('d/m/Y à H:i') }}
-
                 </li>
 
-
                 <li>
-
                     <strong>Date de fin :</strong>
-
                     {{ \Carbon\Carbon::parse($tournoi->date_fin)->format('d/m/Y à H:i') }}
-
                 </li>
 
-
                 <li>
-
                     <strong>Date limite d'inscription :</strong>
-
                     {{ \Carbon\Carbon::parse($tournoi->date_limite_inscription)->format('d/m/Y à H:i') }}
-
                 </li>
 
-
                 <li>
-
                     <strong>Nombre maximum de participants :</strong>
-
                     {{ $tournoi->nombre_max_participants }}
-
                 </li>
 
             </ul>
 
 
-            <h3>Informations du participant</h3>
-
-
-            <p>
-
-                <strong>Prénom et nom :</strong>
-
-                {{ $utilisateur->prenom }} {{ $utilisateur->nom }}
-
-            </p>
-
-
-            <p>
-
-                <strong>Nom d'utilisateur :</strong>
-
-                {{ $utilisateur->nom_utilisateur }}
-
-            </p>
-
-
-            <p>
-
-                <strong>Adresse e-mail :</strong>
-
-                {{ $utilisateur->email }}
-
-            </p>
-
-
-            <hr>
-
-
-            {{-- Affichage selon la situation --}}
+            {{-- SITUATION DE L'INSCRIPTION --}}
 
             @if (session('success'))
 
-                <h2>Félicitations !</h2>
+                <div class="registration-summary">
 
-                <p>
-                    Tu es officiellement inscrit à ce tournoi.
-                </p>
+                    <h2>Félicitations !</h2>
 
+                    <p class="registration-intro">
+                        {{ session('success') }}
+                    </p>
 
-                <a class="btn-register" href="{{ url('/home') }}">
-                    Retour à l'accueil
-                </a>
+                    <span class="registration-confirmed">
+                        ✓ Inscription confirmée
+                    </span>
+
+                    <div class="button-row">
+
+                        <a href="{{ url('/profil') }}" class="btn-register">
+                            Voir mon profil
+                        </a>
+
+                        <a href="{{ url('/home') }}" class="btn-secondary">
+                            Retour à l'accueil
+                        </a>
+
+                    </div>
+
+                </div>
 
 
             @elseif ($dejaInscrit)
 
-                <p class="error">
+                <div class="registration-summary">
 
-                    Tu es déjà inscrit à ce tournoi.
+                    <h2>Tu es déjà inscrite !</h2>
 
-                </p>
+                    <p class="registration-intro">
+                        Ton inscription à ce tournoi est déjà enregistrée.
+                    </p>
 
+                    <span class="registration-confirmed">
+                        ✓ Inscription confirmée
+                    </span>
 
-                <a class="btn-register" href="{{ url('/home') }}">
-                    Retour à l'accueil
-                </a>
+                    <div class="button-row">
+
+                        <a href="{{ url('/profil') }}" class="btn-register">
+                            Voir mon profil
+                        </a>
+
+                        <a href="{{ url('/home') }}" class="btn-secondary">
+                            Retour à l'accueil
+                        </a>
+
+                    </div>
+
+                </div>
 
 
             @else
 
-                <h3>Confirmer ton inscription</h3>
+                {{-- FORMULAIRE DE CONFIRMATION --}}
 
+                <div class="info-message">
 
-                <p>
+                    <h3>Confirmer ton inscription</h3>
 
-                    Vérifie tes informations avant de confirmer
-                    définitivement ta participation.
+                    <p>
+                        Vérifie tes informations avant de confirmer
+                        définitivement ta participation.
+                    </p>
 
-                </p>
-
+                </div>
 
                 <form
                     method="POST"
@@ -201,32 +186,26 @@
 
                     @csrf
 
-
                     <button type="submit" class="btn-register">
-
                         Confirmer mon inscription
-
                     </button>
 
                 </form>
 
             @endif
 
-
         </div>
 
     </article>
-
 
 </main>
 
 
 <footer class="footer">
 
-    <p>© 2026 - Sport &amp; Tournois</p>
+    <p>© {{ date('Y') }} - Sport &amp; Tournois</p>
 
 </footer>
-
 
 </body>
 </html>
