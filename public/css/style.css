@@ -782,7 +782,94 @@ button:disabled {
 
 
 /* ========================================
-   15. RESPONSIVE : TABLETTES ET MOBILES
+   15. PANNEAU D'ADMINISTRATION
+======================================== */
+
+.admin-panel {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+
+.admin-card {
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+}
+
+.admin-card-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+}
+
+.admin-card-header h2 {
+    margin: 0;
+}
+
+.admin-card-header p {
+    margin-top: 6px;
+    color: var(--muted);
+}
+
+.request-list {
+    list-style: none;
+}
+
+.request-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+}
+
+.request-row:last-child {
+    border-bottom: 0;
+}
+
+.user-details {
+    min-width: 0;
+}
+
+.user-name {
+    font-weight: 700;
+}
+
+.user-email {
+    margin-top: 3px;
+    color: var(--muted);
+    overflow-wrap: anywhere;
+}
+
+.request-actions {
+    display: flex;
+    flex-shrink: 0;
+    gap: 10px;
+}
+
+.request-actions button {
+    padding: 9px 14px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    color: white;
+    font-weight: 700;
+}
+
+.button-accept {
+    background: var(--success);
+    border-color: var(--success);
+}
+
+.button-refuse {
+    background: var(--danger);
+    border-color: var(--danger);
+}
+
+
+/* ========================================
+   16. RESPONSIVE : TABLETTES ET MOBILES
 ======================================== */
 
 @media (max-width: 600px) {
@@ -834,6 +921,19 @@ button:disabled {
     .button-row .btn-register,
     .button-row .btn-secondary {
         width: 100%;
+    }
+
+    .admin-panel {
+        padding: 28px 16px;
+    }
+
+    .request-row {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .request-actions button {
+        flex: 1;
     }
 
     /* Logo profil sur téléphone */
@@ -892,7 +992,7 @@ button:disabled {
 
 
 /* ========================================
-   16. PETITS ÉCRANS
+   17. PETITS ÉCRANS
 ======================================== */
 
 @media (max-width: 380px) {
