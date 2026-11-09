@@ -15,7 +15,7 @@ class DatabaseSchemaTest extends TestCase
         config(['database.default' => 'sqlite', 'database.connections.sqlite.database' => ':memory:']);
         DB::purge('sqlite');
 
-        $tables = ['role_utilisateur', 'statut_inscription', 'statut_tournoi', 'categorie', 'utilisateur', 'tournoi', 'inscription'];
+        $tables = ['role_utilisateur', 'statut_inscription', 'statut_tournoi', 'categorie', 'utilisateur', 'tournoi', 'inscription', 'demande_inscription'];
 
         $this->assertSame(0, Artisan::call('migrate', ['--force' => true]));
         foreach ($tables as $table) {

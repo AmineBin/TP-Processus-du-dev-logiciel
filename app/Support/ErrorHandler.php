@@ -27,6 +27,28 @@ final class ErrorHandler
 
     public const VALIDATION_FAILED = 'VALIDATION_FAILED';
 
+    public const CSRF_TOKEN_MISMATCH = 'CSRF_TOKEN_MISMATCH';
+
+    public const ORGANIZER_REQUEST_NOT_FOUND = 'ORGANIZER_REQUEST_NOT_FOUND';
+
+    public const ADMIN_REQUIRED = 'ADMIN_REQUIRED';
+
+    public const ORGANIZER_REQUEST_ROLE_UNAVAILABLE = 'ORGANIZER_REQUEST_ROLE_UNAVAILABLE';
+
+    public const ORGANIZER_REQUEST_CONFLICT = 'ORGANIZER_REQUEST_CONFLICT';
+
+    public const ORGANIZER_REQUEST_ACCOUNT_CONFLICT = 'ORGANIZER_REQUEST_ACCOUNT_CONFLICT';
+
+    public const ORGANIZER_REQUEST_ALREADY_PROCESSED = 'ORGANIZER_REQUEST_ALREADY_PROCESSED';
+
+    public const ORGANIZER_REQUEST_INVALID_ROLE = 'ORGANIZER_REQUEST_INVALID_ROLE';
+
+    public const ORGANIZER_REQUEST_INCOMPLETE = 'ORGANIZER_REQUEST_INCOMPLETE';
+
+    public const ORGANIZER_REQUEST_FAILED = 'ORGANIZER_REQUEST_FAILED';
+
+    public const ORGANIZER_REQUEST_RATE_LIMITED = 'ORGANIZER_REQUEST_RATE_LIMITED';
+
     public const TOURNAMENT_FORBIDDEN = 'TOURNAMENT_FORBIDDEN';
 
     public const TOURNAMENT_CREATION_FAILED = 'TOURNAMENT_CREATION_FAILED';
@@ -52,6 +74,17 @@ final class ErrorHandler
         self::AUTH_ACCOUNT_CONFLICT => 'Un compte utilise déjà cette adresse e-mail ou ce pseudo.',
         self::AUTH_RATE_LIMITED => 'Trop de tentatives de connexion. Réessaie dans une minute.',
         self::VALIDATION_FAILED => 'Certains champs sont invalides.',
+        self::CSRF_TOKEN_MISMATCH => 'La session a expiré. Recharge le formulaire puis réessaie.',
+        self::ORGANIZER_REQUEST_NOT_FOUND => 'Demande introuvable.',
+        self::ADMIN_REQUIRED => 'Cette action est réservée aux administrateurs.',
+        self::ORGANIZER_REQUEST_ROLE_UNAVAILABLE => 'Les demandes organisateur sont temporairement indisponibles.',
+        self::ORGANIZER_REQUEST_CONFLICT => 'Une demande en attente utilise déjà cette adresse e-mail ou ce pseudo.',
+        self::ORGANIZER_REQUEST_ACCOUNT_CONFLICT => 'Un compte utilise déjà cette identité. Aucun compte existant n’a été modifié.',
+        self::ORGANIZER_REQUEST_ALREADY_PROCESSED => 'Cette demande a déjà été traitée.',
+        self::ORGANIZER_REQUEST_INVALID_ROLE => 'Cette demande ne concerne pas le rôle organisateur.',
+        self::ORGANIZER_REQUEST_INCOMPLETE => 'Les informations de cette demande ne permettent pas de créer un compte valide.',
+        self::ORGANIZER_REQUEST_FAILED => 'La demande n’a pas pu être enregistrée ou traitée. Réessaie plus tard.',
+        self::ORGANIZER_REQUEST_RATE_LIMITED => 'Trop de demandes. Réessaie dans une minute.',
         self::TOURNAMENT_FORBIDDEN => 'Seuls les organisateurs peuvent créer un tournoi.',
         self::TOURNAMENT_CREATION_FAILED => 'Le tournoi n’a pas pu être enregistré. Réessaie plus tard.',
         self::TOURNAMENT_ALREADY_REGISTERED => 'Tu es déjà inscrit à ce tournoi.',
@@ -74,6 +107,9 @@ final class ErrorHandler
         'TOURNAMENT_INVALID_STATUS' => 'Choisis un statut de tournoi valide.',
         'BIRTH_DATE_PAST' => 'La date de naissance doit être dans le passé.',
         'PASSWORD_CONFIRMATION' => 'Les deux mots de passe ne correspondent pas.',
+        'PASSWORD_TOO_LONG' => 'Le mot de passe ne doit pas dépasser 72 octets avec bcrypt.',
+        'FIELD_PROHIBITED' => 'Le champ :attribute ne doit pas être fourni.',
+        'ORGANIZER_INVALID_STATUS' => 'Le statut doit être EN_ATTENTE, APPROUVEE ou REFUSEE.',
         'EMAIL_TAKEN' => 'Cette adresse e-mail possède déjà un compte.',
         'USERNAME_TAKEN' => 'Ce pseudo est déjà utilisé.',
         'UNKNOWN_ERROR' => 'Une erreur est survenue. Réessaie plus tard.',

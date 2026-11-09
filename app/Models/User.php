@@ -43,6 +43,12 @@ class User extends Authenticatable
         ];
     }
 
+    /** Autorisation administrative, distincte du rôle organisateur. */
+    public function isAdmin(): bool
+    {
+        return $this->role?->code === Role::ADMIN_CODE;
+    }
+
     /** Vérifie le code métier du rôle, sans supposer un ID numérique fixe. */
     public function isOrganizer(): bool
     {
