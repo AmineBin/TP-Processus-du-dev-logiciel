@@ -28,6 +28,11 @@ class DatabaseSeeder extends Seeder
                     'libelle' => 'Administrateur',
                     'description' => 'Administrateur de la plateforme',
                 ],
+                [
+                    'code' => 'ORGANISATEUR',
+                    'libelle' => 'Organisateur',
+                    'description' => 'Utilisateur autorisé à créer des tournois',
+                ],
             ];
 
             foreach ($roles as $role) {
@@ -96,6 +101,9 @@ class DatabaseSeeder extends Seeder
             $adminRoleId = DB::table('role_utilisateur')
                 ->where('code', 'ADMIN')
                 ->value('id');
+            $organizerRoleId = DB::table('role_utilisateur')
+                ->where('code', 'ORGANISATEUR')
+                ->value('id');
 
             DB::table('utilisateur')->updateOrInsert(
                 ['email' => 'test@example.com'],
@@ -125,8 +133,22 @@ class DatabaseSeeder extends Seeder
                 ]
             );
 
+            DB::table('utilisateur')->updateOrInsert(
+                ['email' => 'organisateur@example.com'],
+                [
+                    'nom_utilisateur' => 'organisateur',
+                    'mot_de_passe_hash' => Hash::make('password'),
+                    'date_naissance' => '1992-03-20',
+                    'numero_telephone' => '0611223344',
+                    'prenom' => 'Orga',
+                    'nom' => 'Tournoi',
+                    'est_actif' => true,
+                    'role_id' => $organizerRoleId,
+                ]
+            );
+
             $organizerId = DB::table('utilisateur')
-                ->where('email', 'admin@example.com')
+                ->where('email', 'organisateur@example.com')
                 ->value('id');
             $upcomingStatusId = DB::table('statut_tournoi')
                 ->where('code', 'A_VENIR')

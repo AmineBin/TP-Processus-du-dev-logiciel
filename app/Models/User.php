@@ -21,6 +21,11 @@ class User extends Authenticatable
 		'role_id',
 	];
 
+	public function getAuthPassword(): string
+	{
+		return $this->mot_de_passe_hash;
+	}
+
 	public function __construct(array $attributes = [])
 	{
 		parent::__construct($attributes);

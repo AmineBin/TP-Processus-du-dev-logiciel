@@ -102,6 +102,7 @@ a {
 
 .form-card {
     display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
     max-width: 680px;
     margin: 0 auto 1.5rem;
@@ -114,7 +115,17 @@ a {
     gap: 0.35rem;
 }
 
-.form-card input {
+.form-card .form-field-wide {
+    grid-column: 1 / -1;
+}
+
+.form-card .form-field {
+    min-width: 0;
+}
+
+.form-card input,
+.form-card textarea,
+.form-card select {
     width: 100%;
     padding: 0.5rem 0.7rem;
     background: var(--bg);
@@ -124,21 +135,42 @@ a {
     font: inherit;
 }
 
-.form-card input:focus {
-    outline: none;
+.form-card textarea {
+    min-height: 7rem;
+    resize: vertical;
 }
 
-.form-card input[type="date"] {
+.form-card select {
+    min-height: 2.5rem;
+}
+
+.form-card input:focus,
+.form-card textarea:focus,
+.form-card select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgb(59 130 246 / 20%);
+}
+
+.form-card input[type="date"],
+.form-card input[type="datetime-local"] {
     color-scheme: dark;
 }
 
-.form-card input[type="date"]::-webkit-calendar-picker-indicator {
+.form-card input[type="date"]::-webkit-calendar-picker-indicator,
+.form-card input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     filter: invert(1);
     opacity: 0.8;
 }
 
+.form-card input::placeholder,
+.form-card textarea::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+}
+
 .form-card button {
-    grid-column: 1;
+    grid-column: 1 / -1;
     width: 100%;
     padding: 0.6rem 1rem;
     background: var(--accent);
@@ -229,6 +261,14 @@ a {
         padding: 0.8rem;
     }
 
+    .form-card {
+        grid-template-columns: 1fr;
+    }
+
+    .form-card .form-field-wide,
+    .form-card .form-field {
+        grid-column: 1;
+    }
 }
 
 @media (max-width: 380px) {
