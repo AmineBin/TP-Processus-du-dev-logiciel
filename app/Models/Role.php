@@ -12,6 +12,8 @@ class Role extends Model
 
     public const ADMIN_CODE = 'ADMIN';
 
+    public const ORGANIZER_CODE = 'ORGANISATEUR';
+
     protected $table = 'role_utilisateur';
 
     public $timestamps = false;

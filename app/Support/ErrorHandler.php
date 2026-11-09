@@ -27,6 +27,10 @@ final class ErrorHandler
 
     public const VALIDATION_FAILED = 'VALIDATION_FAILED';
 
+    public const TOURNAMENT_FORBIDDEN = 'TOURNAMENT_FORBIDDEN';
+
+    public const TOURNAMENT_CREATION_FAILED = 'TOURNAMENT_CREATION_FAILED';
+
     /** @var array<string, string> Codes stables ; les messages peuvent évoluer. */
     private const MESSAGES = [
         self::AUTH_REQUIRED => 'Connecte-toi pour accéder à cette page.',
@@ -38,12 +42,21 @@ final class ErrorHandler
         self::AUTH_ACCOUNT_CONFLICT => 'Un compte utilise déjà cette adresse e-mail ou ce pseudo.',
         self::AUTH_RATE_LIMITED => 'Trop de tentatives de connexion. Réessaie dans une minute.',
         self::VALIDATION_FAILED => 'Certains champs sont invalides.',
+        self::TOURNAMENT_FORBIDDEN => 'Seuls les organisateurs peuvent créer un tournoi.',
+        self::TOURNAMENT_CREATION_FAILED => 'Le tournoi n’a pas pu être enregistré. Réessaie plus tard.',
         'FIELD_REQUIRED' => 'Le champ :attribute est obligatoire.',
         'FIELD_STRING' => 'Le champ :attribute doit être une chaîne de caractères.',
         'FIELD_EMAIL' => 'L’adresse e-mail doit être valide.',
         'FIELD_MAX' => 'Le champ :attribute ne doit pas dépasser :max caractères.',
         'FIELD_MIN' => 'Le champ :attribute doit contenir au moins :min caractères.',
         'FIELD_DATE' => 'Le champ :attribute doit être une date valide.',
+        'FIELD_INTEGER' => 'Le champ :attribute doit être un nombre entier.',
+        'FIELD_MIN_NUMBER' => 'Le champ :attribute doit être supérieur ou égal à :min.',
+        'FIELD_MAX_NUMBER' => 'Le champ :attribute ne doit pas dépasser :max.',
+        'TOURNAMENT_END_AFTER_START' => 'La date de fin doit être postérieure à la date de début.',
+        'TOURNAMENT_DEADLINE_BEFORE_START' => 'La date limite d’inscription ne doit pas dépasser la date de début.',
+        'TOURNAMENT_INVALID_CATEGORY' => 'Choisis une discipline valide, pas une catégorie racine ou intermédiaire.',
+        'TOURNAMENT_INVALID_STATUS' => 'Choisis un statut de tournoi valide.',
         'BIRTH_DATE_PAST' => 'La date de naissance doit être dans le passé.',
         'PASSWORD_CONFIRMATION' => 'Les deux mots de passe ne correspondent pas.',
         'EMAIL_TAKEN' => 'Cette adresse e-mail possède déjà un compte.',

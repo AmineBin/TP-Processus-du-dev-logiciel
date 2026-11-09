@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\EnsureActiveAccount;
+use App\Http\Middleware\EnsureOrganizer;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Support\ErrorHandler;
 use Illuminate\Foundation\Application;
@@ -22,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth' => Authenticate::class,
             'guest' => RedirectIfAuthenticated::class,
             'active' => EnsureActiveAccount::class,
+            'organizer' => EnsureOrganizer::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

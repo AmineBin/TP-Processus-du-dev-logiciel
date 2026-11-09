@@ -18,6 +18,14 @@
 
 <main class="container">
 
+    @if (session('error'))
+        <p class="error" role="alert">{{ session('error') }}</p>
+    @endif
+
+    @if (auth()->user()->isOrganizer())
+        <a class="back" href="{{ route('tournaments.create') }}">Créer un tournoi</a>
+    @endif
+
     @foreach ($categories as $categorie)
 
         <section class="section">

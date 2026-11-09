@@ -196,7 +196,7 @@
 
                 <form
                     method="POST"
-                    action="{{ url('/tournoi/' . $tournoi->id . '/inscription') }}"
+                    action="{{ route('tournament.registration.store', ['id' => $tournoi->id]) }}"
                 >
 
                     @csrf

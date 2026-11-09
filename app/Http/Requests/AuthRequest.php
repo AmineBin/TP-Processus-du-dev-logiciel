@@ -3,29 +3,15 @@
 namespace App\Http\Requests;
 
 use App\Support\ErrorHandler;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
 /** Validation commune aux formulaires publics d’authentification. */
-abstract class AuthRequest extends FormRequest
+abstract class AuthRequest extends ValidatedRequest
 {
-    /** L’accès aux formulaires est contrôlé par le middleware guest. */
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     /** @return array<string, string> Messages français issus du catalogue partagé. */
     public function messages(): array
     {
         return [
-            'required' => ErrorHandler::message('FIELD_REQUIRED'),
-            'string' => ErrorHandler::message('FIELD_STRING'),
-            'email' => ErrorHandler::message('FIELD_EMAIL'),
-            'max' => ErrorHandler::message('FIELD_MAX'),
-            'min' => ErrorHandler::message('FIELD_MIN'),
-            'date' => ErrorHandler::message('FIELD_DATE'),
+            ...parent::messages(),
             'birth_date.before' => ErrorHandler::message('BIRTH_DATE_PAST'),
             'password.confirmed' => ErrorHandler::message('PASSWORD_CONFIRMATION'),
             'email.unique' => ErrorHandler::message('EMAIL_TAKEN'),
@@ -47,16 +33,9 @@ abstract class AuthRequest extends FormRequest
         ];
     }
 
-    /** Renvoie les erreurs avant d’exécuter le contrôleur, sans conserver les mots de passe. */
-    protected function failedValidation(Validator $validator): void
+    /** @return list<string> Les mots de passe ne sont jamais conservés en session. */
+    protected function oldInputFields(): array
     {
-        throw new HttpResponseException(ErrorHandler::respond(
-            $this,
-            ErrorHandler::VALIDATION_FAILED,
-            422,
-            $this->redirectRoute,
-            $validator->errors()->messages(),
-            $this->only(['username', 'last_name', 'first_name', 'email', 'phone', 'birth_date']),
-        ));
+        return ['username', 'last_name', 'first_name', 'email', 'phone', 'birth_date'];
     }
 }

@@ -25,6 +25,11 @@ Sur <http://localhost:8000/login> :
 - **Adresse :** `demo.visiteur@example.test`
 - **Mot de passe :** `DemoTournois2026!`
 
+Pour créer des tournois, utiliser **`organisateur@example.com` / `password`**, puis
+le lien « Créer un tournoi » sur l’accueil. Ce compte est créé uniquement par le
+seed de démonstration ; un compte déjà présent n’est pas réinitialisé.
+Voir [le contrat de création](tournament-creation.md).
+
 Huit autres participants sont disponibles : `demo.joueur01@example.test` à
 `demo.joueur08@example.test`, avec le même mot de passe initial.
 
@@ -38,12 +43,12 @@ et ses identifiants actuels restent valables.
 
 | Données métier | Quantité |
 | --- | --- |
-| Rôles | 2 |
+| Rôles | 3 : utilisateur, administrateur et organisateur |
 | Statuts d’inscription | 3 |
 | Statuts de tournoi | 3 |
 | Catégories racines | 3 |
 | Disciplines | 10 |
-| Utilisateurs | 11 : 2 comptes du jeu minimal et 9 comptes supplémentaires |
+| Utilisateurs | 12 : 2 comptes du jeu minimal et 10 comptes supplémentaires, dont l’organisateur |
 | Tournois | 15 |
 | Inscriptions | 20 |
 

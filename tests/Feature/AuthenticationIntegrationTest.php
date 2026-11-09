@@ -229,7 +229,7 @@ class AuthenticationIntegrationTest extends TestCase
         $this->assertNotNull($standardId);
         $this->assertSame($standardId, Role::query()->where('code', Role::USER_CODE)->value('id'));
         $this->assertSame($adminId, Role::query()->where('code', Role::ADMIN_CODE)->value('id'));
-        $this->assertDatabaseCount('role_utilisateur', 3);
+        $this->assertDatabaseCount('role_utilisateur', 4);
         $this->assertDatabaseCount('utilisateur', 2);
         $this->assertSame($user->mot_de_passe_hash, $user->fresh()->mot_de_passe_hash);
     }

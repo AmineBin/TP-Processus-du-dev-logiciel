@@ -23,7 +23,9 @@ flowchart TB
     end
 
     subgraph Validation["app/Http/Requests — validation"]
-        BaseRequest["AuthRequest.php<br/>Messages et réponse en cas de validation invalide"]
+        BaseRequest["AuthRequest.php<br/>Messages et anciennes saisies propres à l’auth"]
+        SharedRequest["ValidatedRequest.php<br/>Contrat de validation partagé avec les tournois"]
+        BaseRequest -. "hérite de" .-> SharedRequest
         Login["LoginRequest.php<br/>Règles de connexion"]
         Register["RegisterRequest.php<br/>Règles de création de compte"]
         Login -. "hérite de" .-> BaseRequest
@@ -56,7 +58,7 @@ flowchart TB
     Active -. "erreur" .-> Errors
     Auth -. "erreur" .-> Errors
     Guest -. "erreur JSON" .-> Errors
-    BaseRequest -. "validation invalide" .-> Errors
+    SharedRequest -. "validation invalide" .-> Errors
     Controller -. "erreur métier" .-> Errors
     Errors --> Front
 ```
@@ -205,7 +207,7 @@ SQL interceptées dans ce schéma sont celles du bloc de création du contrôleu
 ```mermaid
 flowchart TD
     Middleware["Middleware<br/>AUTH_REQUIRED, AUTH_INACTIVE, etc."] --> Handler
-    Request["AuthRequest<br/>VALIDATION_FAILED et erreurs par champ"] --> Handler
+    Request["ValidatedRequest<br/>VALIDATION_FAILED et erreurs par champ"] --> Handler
     Controller["UserController<br/>Identifiants incorrects, rôle absent, conflit, erreur SQL"] --> Handler
     Bootstrap["bootstrap/app.php<br/>Limitation des tentatives de connexion"] --> Handler
 
@@ -240,7 +242,7 @@ erDiagram
 
     ROLE_UTILISATEUR {
         int id PK "Identifiant technique auto-incrémenté"
-        string code UK "UTILISATEUR ou ADMIN"
+        string code UK "UTILISATEUR, ADMIN ou ORGANISATEUR"
         string libelle "Nom affiché"
     }
 

@@ -19,5 +19,9 @@ class RoleSeeder extends Seeder
             'libelle' => 'Administrateur',
             'description' => 'Administrateur de la plateforme',
         ]);
+        Role::query()->updateOrCreate(['code' => Role::ORGANIZER_CODE], [
+            'libelle' => 'Organisateur',
+            'description' => 'Utilisateur autorisé à créer des tournois',
+        ]);
     }
 }

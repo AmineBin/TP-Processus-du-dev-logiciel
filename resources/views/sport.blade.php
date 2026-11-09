@@ -122,7 +122,7 @@
                 {{-- Bouton vers la page de confirmation --}}
 
                 <a
-                    href="{{ url('/tournoi/' . $tournoi->id . '/inscription') }}"
+                    href="{{ route('tournament.registration', ['id' => $tournoi->id]) }}"
                     class="btn-register"
                 >
                     S'inscrire au tournoi

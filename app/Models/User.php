@@ -41,6 +41,12 @@ class User extends Authenticatable
         ];
     }
 
+    /** Vérifie le code métier du rôle, sans supposer un ID numérique fixe. */
+    public function isOrganizer(): bool
+    {
+        return $this->role?->code === Role::ORGANIZER_CODE;
+    }
+
     /** @return BelongsTo<Role, $this> Rôle attribué exclusivement côté serveur. */
     public function role(): BelongsTo
     {

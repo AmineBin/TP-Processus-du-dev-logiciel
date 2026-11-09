@@ -26,11 +26,11 @@ class DemoSeederTest extends TestCase
     {
         $this->seed(DemoSeeder::class);
 
-        $this->assertDatabaseCount('role_utilisateur', 2);
+        $this->assertDatabaseCount('role_utilisateur', 3);
         $this->assertDatabaseCount('statut_inscription', 3);
         $this->assertDatabaseCount('statut_tournoi', 3);
         $this->assertDatabaseCount('categorie', 13);
-        $this->assertDatabaseCount('utilisateur', 11);
+        $this->assertDatabaseCount('utilisateur', 12);
         $this->assertDatabaseCount('tournoi', 15);
         $this->assertDatabaseCount('inscription', 20);
         $this->assertSame(3, DB::table('categorie')->whereNull('categorie_parent_id')->count());
@@ -56,7 +56,7 @@ class DemoSeederTest extends TestCase
 
         $passwordHash = Hash::make('my-existing-password');
         $adminRole = DB::table('role_utilisateur')->where('code', 'ADMIN')->value('id');
-        DB::table('utilisateur')->whereIn('email', ['test@example.com', 'demo.visiteur@example.test'])->update([
+        DB::table('utilisateur')->whereIn('email', ['test@example.com', 'demo.visiteur@example.test', 'organisateur@example.com'])->update([
             'mot_de_passe_hash' => $passwordHash,
             'est_actif' => false,
             'role_id' => $adminRole,
@@ -80,7 +80,7 @@ class DemoSeederTest extends TestCase
             $this->assertSame($ids[$table], $query->pluck('id')->all(), $table);
         }
 
-        foreach (['test@example.com', 'demo.visiteur@example.test'] as $email) {
+        foreach (['test@example.com', 'demo.visiteur@example.test', 'organisateur@example.com'] as $email) {
             $user = User::where('email', $email)->firstOrFail();
             $this->assertSame($passwordHash, $user->mot_de_passe_hash);
             $this->assertFalse($user->est_actif);
