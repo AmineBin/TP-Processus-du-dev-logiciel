@@ -1,0 +1,32 @@
+/* Badges partagés par le profil, la liste et le détail : le statut vient de la BDD. */
+.registration-state {
+    display: inline-block;
+    margin-top: 0.75rem;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    color: #cbd5e1;
+    font-size: 0.875rem;
+    font-weight: 700;
+}
+
+.registration-state-confirmed {
+    color: #86efac;
+    background: #22c55e14;
+}
+
+.registration-state-pending {
+    color: #fde68a;
+    background: #f59e0b14;
+}
+
+.registration-state-cancelled {
+    color: #fca5a5;
+    background: #ef444414;
+}
+
+.registration-notice {
+    margin: 1rem 0;
+    color: var(--muted, #cbd5e1);
+    overflow-wrap: anywhere;
+}

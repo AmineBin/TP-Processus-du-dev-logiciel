@@ -1,4 +1,4 @@
-# Catalogue des erreurs : authentification et création de tournois
+# Catalogue des erreurs applicatives
 
 ## Utilisation
 
@@ -9,8 +9,9 @@ Un code inconnu utilise le texte de `UNKNOWN_ERROR`.
 
 `ErrorHandler::respond()` reçoit la requête, le code, le statut HTTP, le nom de route
 de retour et, facultativement, les erreurs par champ et les anciennes saisies
-explicitement autorisées. Les mots de passe ne doivent jamais être passés à ce
-dernier paramètre.
+explicitement autorisées. Les mots de passe ne doivent jamais être passés comme
+anciennes saisies. Pour une route de détail, `routeParameters` transmet ses
+paramètres, par exemple `['id' => $id]` pour `tournament.registration`.
 
 - Client JSON : objet `code`, `message`, et éventuellement `errors` ; statut indiqué ci-dessous.
 - Client HTML : redirection HTTP 302, `error_code` en session et message dans `$errors` ou `session('error')`.
@@ -32,6 +33,11 @@ Les statuts de la table concernent le JSON, pas les redirections HTML.
 | `VALIDATION_FAILED` | 422 | Certains champs sont invalides. `errors` détaille les champs concernés. |
 | `TOURNAMENT_FORBIDDEN` | 403 | Seuls les organisateurs peuvent créer un tournoi. Retour à l’accueil en HTML. |
 | `TOURNAMENT_CREATION_FAILED` | 503 | Le tournoi n’a pas pu être enregistré. Réessaie plus tard. Retour au formulaire avec anciennes saisies en HTML. |
+| `TOURNAMENT_ALREADY_REGISTERED` | 409 | Tu es déjà inscrit à ce tournoi. Participation en attente ou confirmée. |
+| `TOURNAMENT_REGISTRATION_CLOSED` | 409 | La date limite d’inscription est dépassée. |
+| `TOURNAMENT_FULL` | 409 | Désolé, ce tournoi est complet. Seules les participations actives réservent une place. |
+| `TOURNAMENT_REGISTRATION_UNAVAILABLE` | 503 | Les inscriptions sont temporairement indisponibles. Réessaie plus tard. Référentiel absent ou état non réactivable. |
+| `TOURNAMENT_REGISTRATION_FAILED` | 503 | L’inscription n’a pas pu être enregistrée. Réessaie plus tard. Transaction annulée, détail SQL journalisé. |
 | `UNKNOWN_ERROR` | — | Une erreur est survenue. Réessaie plus tard. Repli du catalogue, sans statut implicite. |
 
 Les doublons détectés par `RegisterRequest` sont des validations HTTP 422. Le code
@@ -68,11 +74,12 @@ Laravel remplace les paramètres `:attribute`, `:min` et `:max`.
 Ce catalogue n’est pas un remplacement du gestionnaire d’exceptions Laravel.
 Les erreurs CSRF (419), routes introuvables (404), validations ne passant pas par
 `ValidatedRequest` et autres exceptions non traitées conservent le fonctionnement
-Laravel. La création de tournois utilise ce catalogue ; les erreurs métier de
-l’inscription à un tournoi conservent encore leurs messages historiques.
+Laravel. La création de tournois et leurs inscriptions utilisent ce catalogue,
+avec retour au formulaire ou au détail pour les réponses HTML.
 
 Le contrôleur ne renvoie pas les requêtes SQL, hachages ou traces des exceptions
-interceptées pendant la création du compte ou l’enregistrement du tournoi. Les erreurs techniques sont journalisées
+interceptées pendant la création du compte, du tournoi ou d’une participation.
+Les erreurs techniques sont journalisées
 par Laravel ; l’accès aux logs doit être restreint car ils peuvent contenir des
 détails sensibles. Utiliser `APP_DEBUG=false` hors développement pour les autres
 exceptions et ne jamais publier les logs ou la configuration privée.

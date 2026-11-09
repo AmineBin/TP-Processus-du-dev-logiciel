@@ -14,6 +14,37 @@ class Category extends Model
 
     public $timestamps = false;
 
+    /** @return HasMany<Tournament, $this> Tournois directement rattachés à la catégorie. */
+    public function tournois(): HasMany
+    {
+        return $this->hasMany(Tournament::class, 'categorie_id');
+    }
+
+    /**
+     * IDs du nœud et de tous ses descendants, sans boucle en cas de données cycliques.
+     *
+     * @return list<int>
+     */
+    public function subtreeIds(): array
+    {
+        $children = self::query()->get(['id', 'categorie_parent_id'])->groupBy('categorie_parent_id');
+        $pending = [(int) $this->getKey()];
+        $ids = [];
+
+        while ($pending !== []) {
+            $id = array_pop($pending);
+            if (isset($ids[$id])) {
+                continue;
+            }
+            $ids[$id] = $id;
+            foreach ($children->get($id, collect()) as $child) {
+                $pending[] = (int) $child->id;
+            }
+        }
+
+        return array_values($ids);
+    }
+
     /** @return HasMany<Category, $this> Sous-catégories de ce nœud. */
     public function children(): HasMany
     {

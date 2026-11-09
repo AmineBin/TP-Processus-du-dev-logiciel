@@ -31,6 +31,16 @@ final class ErrorHandler
 
     public const TOURNAMENT_CREATION_FAILED = 'TOURNAMENT_CREATION_FAILED';
 
+    public const TOURNAMENT_ALREADY_REGISTERED = 'TOURNAMENT_ALREADY_REGISTERED';
+
+    public const TOURNAMENT_REGISTRATION_CLOSED = 'TOURNAMENT_REGISTRATION_CLOSED';
+
+    public const TOURNAMENT_FULL = 'TOURNAMENT_FULL';
+
+    public const TOURNAMENT_REGISTRATION_UNAVAILABLE = 'TOURNAMENT_REGISTRATION_UNAVAILABLE';
+
+    public const TOURNAMENT_REGISTRATION_FAILED = 'TOURNAMENT_REGISTRATION_FAILED';
+
     /** @var array<string, string> Codes stables ; les messages peuvent évoluer. */
     private const MESSAGES = [
         self::AUTH_REQUIRED => 'Connecte-toi pour accéder à cette page.',
@@ -44,6 +54,11 @@ final class ErrorHandler
         self::VALIDATION_FAILED => 'Certains champs sont invalides.',
         self::TOURNAMENT_FORBIDDEN => 'Seuls les organisateurs peuvent créer un tournoi.',
         self::TOURNAMENT_CREATION_FAILED => 'Le tournoi n’a pas pu être enregistré. Réessaie plus tard.',
+        self::TOURNAMENT_ALREADY_REGISTERED => 'Tu es déjà inscrit à ce tournoi.',
+        self::TOURNAMENT_REGISTRATION_CLOSED => 'La date limite d’inscription est dépassée.',
+        self::TOURNAMENT_FULL => 'Désolé, ce tournoi est complet.',
+        self::TOURNAMENT_REGISTRATION_UNAVAILABLE => 'Les inscriptions sont temporairement indisponibles. Réessaie plus tard.',
+        self::TOURNAMENT_REGISTRATION_FAILED => 'L’inscription n’a pas pu être enregistrée. Réessaie plus tard.',
         'FIELD_REQUIRED' => 'Le champ :attribute est obligatoire.',
         'FIELD_STRING' => 'Le champ :attribute doit être une chaîne de caractères.',
         'FIELD_EMAIL' => 'L’adresse e-mail doit être valide.',
@@ -82,6 +97,7 @@ final class ErrorHandler
      *
      * @param  array<string, array<string>>  $errors  Erreurs classées par champ.
      * @param  array<string, mixed>  $oldInput  Champs non sensibles à réafficher.
+     * @param  array<string, mixed>  $routeParameters  Paramètres d’une route de détail.
      */
     public static function respond(
         Request $request,
@@ -90,6 +106,7 @@ final class ErrorHandler
         string $redirectRoute = 'login',
         array $errors = [],
         array $oldInput = [],
+        array $routeParameters = [],
     ): JsonResponse|RedirectResponse {
         $message = self::message($code);
 
@@ -103,7 +120,7 @@ final class ErrorHandler
             return response()->json($payload, $status);
         }
 
-        $response = redirect()->route($redirectRoute)->with('error_code', $code);
+        $response = redirect()->route($redirectRoute, $routeParameters)->with('error_code', $code);
 
         // Ne pas afficher deux fois la même erreur dans les formulaires Blade.
         if ($errors !== []) {
