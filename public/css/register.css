@@ -1,0 +1,98 @@
+/* Ces ajustements restent limités à l’inscription ; la connexion est inchangée. */
+.register-page .header {
+    padding: 1.25rem 1.5rem;
+}
+
+.register-page .header h1 {
+    font-size: clamp(1.6rem, 4vw, 2rem);
+}
+
+.register-page .container {
+    max-width: 800px;
+    padding: 1.5rem;
+}
+
+.register-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 0.8rem 1.25rem;
+    max-width: none;
+    margin-bottom: 0;
+    padding: 1.5rem;
+}
+
+.register-form > div {
+    min-width: 0;
+    gap: 0.25rem;
+}
+
+.register-form label {
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+.register-form input {
+    min-width: 0;
+    min-height: 44px;
+    font-size: 1rem;
+}
+
+.register-form input:focus-visible {
+    outline: 2px solid var(--accent-2);
+    outline-offset: 2px;
+}
+
+/* Messages et actions occupent toute la largeur, quel que soit leur contenu. */
+.register-form > .error-message,
+.register-form > button,
+.register-form > p {
+    grid-column: 1 / -1;
+}
+
+.register-form p {
+    margin: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.register-form > .error-message {
+    display: block;
+    padding: 0.75rem;
+    background: #ef444414;
+    border: 1px solid #ef444480;
+    border-radius: var(--radius);
+    color: #fecaca;
+    font-size: 0.875rem;
+    line-height: 1.45;
+}
+
+.register-form .error-message p + p {
+    margin-top: 0.35rem;
+}
+
+.register-form > button {
+    min-height: 44px;
+    margin-top: 0.25rem;
+}
+
+.register-form > p:last-child {
+    color: var(--muted);
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .register-page .header {
+        padding: 1rem;
+    }
+
+    .register-page .container {
+        padding: 1rem;
+    }
+
+    .register-form {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+}
