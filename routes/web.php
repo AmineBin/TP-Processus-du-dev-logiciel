@@ -17,6 +17,11 @@ Route::middleware('active')->group(function (): void {
     });
 
     Route::middleware('auth')->group(function (): void {
+        Route::middleware('organizer')->group(function (): void {
+            Route::get('/tournament', [TournamentController::class, 'create'])->name('tournaments.create');
+            Route::post('/tournament', [TournamentController::class, 'store'])->name('tournaments.store');
+        });
+
         Route::post('/logout', [UserController::class, 'logout'])->name('logout');
         Route::get('/home', [HomeController::class, 'index'])->name('home');
         Route::get('/sport/{name?}', [TournamentController::class, 'index'])->name('sport');

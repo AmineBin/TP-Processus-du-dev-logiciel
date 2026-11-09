@@ -115,6 +115,7 @@ Il actualise les dates des tournois de démonstration et ne fonctionne qu’en
 - [Contrat frontend : formulaires, session et réponses JSON](docs/auth-frontend.md)
 - [Catalogue des codes d’erreur](docs/errors.md)
 - [Jeu de démonstration et scénarios du frontend](docs/demo-data.md)
+- [Création de tournois : accès organisateur, formulaire et validation](docs/tournament-creation.md)
 
 ## Lancement
 

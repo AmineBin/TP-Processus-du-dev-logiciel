@@ -19,7 +19,8 @@ Pour une lecture visuelle, voir les [schémas Mermaid des fichiers et des parcou
 | `routes/web.php` | Associer une URL à une action et déclarer les contrôles d’accès. |
 | `app/Http/Requests/LoginRequest.php` | Valider l’adresse e-mail et le mot de passe de connexion. |
 | `app/Http/Requests/RegisterRequest.php` | Valider les données de création de compte et leur unicité. |
-| `app/Http/Requests/AuthRequest.php` | Partager les messages français et produire les réponses de validation. |
+| `app/Http/Requests/ValidatedRequest.php` | Partager le contrat HTML/JSON de validation et la liste blanche d’anciennes saisies. |
+| `app/Http/Requests/AuthRequest.php` | Ajouter les messages et anciennes saisies propres à l’authentification. |
 | `app/Http/Controllers/UserController.php` | Afficher les formulaires, connecter, créer le compte et déconnecter. |
 | `app/Http/Middleware/Authenticate.php` | Refuser les visiteurs sur les routes protégées. |
 | `app/Http/Middleware/RedirectIfAuthenticated.php` | Réserver les formulaires aux visiteurs. |
@@ -95,7 +96,7 @@ php artisan migrate
 php artisan db:seed --class=RoleSeeder
 ```
 
-`RoleSeeder` ajoute ou actualise `UTILISATEUR` et `ADMIN` par code, conserve les IDs
+`RoleSeeder` ajoute ou actualise `UTILISATEUR`, `ADMIN` et `ORGANISATEUR` par code, conserve les IDs
 existants et ne modifie aucun compte. Il peut être exécuté plusieurs fois. Le
 contrôleur utilise ensuite l’ID réellement trouvé, qu’il vaille `1`, `42` ou autre.
 
@@ -130,6 +131,7 @@ types. Aucune mesure de couverture de lignes n’est revendiquée.
 | ErrorHandler | Catalogue, code inconnu, erreurs JSON, limitation et absence de détails SQL dans les réponses testées. |
 | Compatibilité des écrans | Accueil, catégories et inscription à un tournoi sans doublon. |
 
-Voir aussi [le contrat frontend](auth-frontend.md) et [le catalogue des erreurs](errors.md).
+Voir aussi [le contrat frontend](auth-frontend.md), [le catalogue des erreurs](errors.md)
+et [la création de tournois et ses autorisations](tournament-creation.md).
 Références Laravel : [authentification](https://laravel.com/docs/13.x/authentication),
 [Form Requests](https://laravel.com/docs/13.x/validation#form-request-validation).

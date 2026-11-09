@@ -22,7 +22,17 @@ class DemoSeeder extends DatabaseSeeder
 
             $categories = $this->seedCategories();
             $users = $this->seedParticipants();
-            $organizerId = (int) DB::table('utilisateur')->where('email', 'admin@example.com')->value('id');
+            // Ce compte à mot de passe public reste dans le seed limité au développement.
+            $organizerId = $this->createUserIfMissing('organisateur@example.com', [
+                'nom_utilisateur' => 'organisateur',
+                'mot_de_passe_hash' => Hash::make('password'),
+                'date_naissance' => '1992-03-20',
+                'numero_telephone' => '0611223344',
+                'prenom' => 'Orga',
+                'nom' => 'Tournoi',
+                'est_actif' => true,
+                'role_id' => DB::table('role_utilisateur')->where('code', Role::ORGANIZER_CODE)->value('id'),
+            ]);
             $tournaments = $this->seedTournaments($categories, $organizerId);
             $this->seedRegistrations($users, $tournaments);
         });
@@ -133,6 +143,8 @@ class DemoSeeder extends DatabaseSeeder
         $tournaments = [
             'fps_demo' => (int) DB::table('tournoi')->where('nom', 'Tournoi FPS de démonstration')->value('id'),
         ];
+
+        DB::table('tournoi')->where('id', $tournaments['fps_demo'])->update(['organisateur_id' => $organizerId]);
 
         foreach ($this->tournamentFixtures() as $key => [$name, $category, $startDays, $deadlineDays, $capacity, $status, $description]) {
             $start = now()->startOfDay()->addDays($startDays)->setHour(18);

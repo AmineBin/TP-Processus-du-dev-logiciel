@@ -1,4 +1,4 @@
-# Catalogue des erreurs d’authentification
+# Catalogue des erreurs : authentification et création de tournois
 
 ## Utilisation
 
@@ -30,6 +30,8 @@ Les statuts de la table concernent le JSON, pas les redirections HTML.
 | `AUTH_ACCOUNT_CONFLICT` | 409 | Un compte utilise déjà cette adresse e-mail ou ce pseudo. Conflit SQL concurrent. |
 | `AUTH_RATE_LIMITED` | 429 | Trop de tentatives de connexion. Réessaie dans une minute. Le header `Retry-After` précise le délai. |
 | `VALIDATION_FAILED` | 422 | Certains champs sont invalides. `errors` détaille les champs concernés. |
+| `TOURNAMENT_FORBIDDEN` | 403 | Seuls les organisateurs peuvent créer un tournoi. Retour à l’accueil en HTML. |
+| `TOURNAMENT_CREATION_FAILED` | 503 | Le tournoi n’a pas pu être enregistré. Réessaie plus tard. Retour au formulaire avec anciennes saisies en HTML. |
 | `UNKNOWN_ERROR` | — | Une erreur est survenue. Réessaie plus tard. Repli du catalogue, sans statut implicite. |
 
 Les doublons détectés par `RegisterRequest` sont des validations HTTP 422. Le code
@@ -49,6 +51,13 @@ Laravel remplace les paramètres `:attribute`, `:min` et `:max`.
 | `FIELD_MAX` | Le champ :attribute ne doit pas dépasser :max caractères. |
 | `FIELD_MIN` | Le champ :attribute doit contenir au moins :min caractères. |
 | `FIELD_DATE` | Le champ :attribute doit être une date valide. |
+| `FIELD_INTEGER` | Le champ :attribute doit être un nombre entier. |
+| `FIELD_MIN_NUMBER` | Le champ :attribute doit être supérieur ou égal à :min. |
+| `FIELD_MAX_NUMBER` | Le champ :attribute ne doit pas dépasser :max. |
+| `TOURNAMENT_END_AFTER_START` | La date de fin doit être postérieure à la date de début. |
+| `TOURNAMENT_DEADLINE_BEFORE_START` | La date limite d’inscription ne doit pas dépasser la date de début. |
+| `TOURNAMENT_INVALID_CATEGORY` | Choisis une discipline valide, pas une catégorie racine ou intermédiaire. |
+| `TOURNAMENT_INVALID_STATUS` | Choisis un statut de tournoi valide. |
 | `BIRTH_DATE_PAST` | La date de naissance doit être dans le passé. |
 | `PASSWORD_CONFIRMATION` | Les deux mots de passe ne correspondent pas. |
 | `EMAIL_TAKEN` | Cette adresse e-mail possède déjà un compte. |
@@ -57,12 +66,13 @@ Laravel remplace les paramètres `:attribute`, `:min` et `:max`.
 ## Limites et exploitation
 
 Ce catalogue n’est pas un remplacement du gestionnaire d’exceptions Laravel.
-Les erreurs CSRF (419), routes introuvables (404), erreurs de validation hors auth
-et autres exceptions non traitées conservent le fonctionnement Laravel. Les erreurs
-métier des tournois ne sont pas encore intégrées à ce catalogue.
+Les erreurs CSRF (419), routes introuvables (404), validations ne passant pas par
+`ValidatedRequest` et autres exceptions non traitées conservent le fonctionnement
+Laravel. La création de tournois utilise ce catalogue ; les erreurs métier de
+l’inscription à un tournoi conservent encore leurs messages historiques.
 
 Le contrôleur ne renvoie pas les requêtes SQL, hachages ou traces des exceptions
-interceptées pendant la création du compte. Les erreurs techniques sont journalisées
+interceptées pendant la création du compte ou l’enregistrement du tournoi. Les erreurs techniques sont journalisées
 par Laravel ; l’accès aux logs doit être restreint car ils peuvent contenir des
 détails sensibles. Utiliser `APP_DEBUG=false` hors développement pour les autres
 exceptions et ne jamais publier les logs ou la configuration privée.

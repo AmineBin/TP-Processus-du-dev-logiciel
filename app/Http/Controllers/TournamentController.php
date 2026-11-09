@@ -2,15 +2,68 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTournamentRequest;
+use App\Models\Category;
+use App\Models\Tournament;
+use App\Models\TournamentStatus;
+use App\Support\ErrorHandler;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\QueryException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-/** Traitements existants des tournois, extraits des routes sans refonte métier. */
+/** Consultation, création et inscription aux tournois ; accès contrôlé par les middlewares. */
 class TournamentController extends Controller
 {
+    /** Charge uniquement les disciplines feuilles et les statuts de référence. */
+    public function create(): View
+    {
+        return view('tournament', [
+            'categories' => Category::disciplines()->with('parent')->orderBy('nom')->get(),
+            'statuts' => TournamentStatus::query()->orderBy('id')->get(),
+        ]);
+    }
+
+    /** Enregistre les données validées en imposant l’organisateur de la session. */
+    public function store(StoreTournamentRequest $request): JsonResponse|RedirectResponse
+    {
+        try {
+            $tournament = DB::transaction(function () use ($request): Tournament {
+                $tournament = new Tournament($request->validated());
+                $tournament->organizer()->associate($request->user());
+                $tournament->save();
+
+                return $tournament->load('category');
+            });
+        } catch (QueryException $exception) {
+            // Journaliser la cause, sans exposer SQL ou traces même en mode debug.
+            report($exception);
+
+            return ErrorHandler::respond(
+                $request,
+                ErrorHandler::TOURNAMENT_CREATION_FAILED,
+                503,
+                'tournaments.create',
+                oldInput: $request->validated(),
+            );
+        }
+
+        $url = route('sport', ['name' => Str::slug($tournament->category->nom)]);
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => 'Tournoi créé avec succès.',
+                'data' => ['id' => $tournament->getKey()],
+                'redirect_url' => $url,
+            ], 201);
+        }
+
+        return redirect($url)->with('success', 'Tournoi créé avec succès.');
+    }
+
     /** Affiche les tournois correspondant au slug d’une catégorie. */
     public function index(?string $name = null): View
     {
