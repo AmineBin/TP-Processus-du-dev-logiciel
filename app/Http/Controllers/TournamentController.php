@@ -2,91 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
-/** Traitements existants des tournois, extraits des routes sans refonte métier. */
 class TournamentController extends Controller
 {
-    /** Affiche les tournois correspondant au slug d’une catégorie. */
-    public function index(?string $name = null): View
+    public function index(?string $name = null)
     {
-        $name = $name ?? 'Sports';
-        $categorie = DB::table('categorie')->get()
-            ->first(fn ($categorie) => Str::slug($categorie->nom) === Str::slug($name));
-        $categories = collect();
-        $tournois = collect();
+        // Récupérer le nom de la catégorie
+        $name = $name ?? 'Tous les sports';
 
-        if ($categorie) {
-            $categories = DB::table('categorie')
-                ->where('categorie_parent_id', $categorie->id)->get();
-            $idsCategories = $categories->isNotEmpty() ? $categories->pluck('id')->all() : [$categorie->id];
-            $tournois = DB::table('tournoi')->whereIn('categorie_id', $idsCategories)
-                ->orderBy('date_debut')->get();
-        }
+        // Récupérer l'identifiant de l'utilisateur connecté
+        $utilisateurId = Auth::id();
 
-        return view('sport', [
-            'name' => $categorie->nom ?? $name,
-            'categories' => $categories,
-            'tournois' => $tournois,
-        ]);
-    }
+        // Récupérer les tournois et les inscriptions de l'utilisateur
+        $tournois = DB::table('tournoi')
+            ->join('categorie', 'tournoi.categorie_id', '=', 'categorie.id')
+            ->leftJoin('inscription', function ($join) use ($utilisateurId) {
+                $join->on('tournoi.id', '=', 'inscription.tournoi_id')
+                    ->where('inscription.utilisateur_id', '=', $utilisateurId);
+            })
+            ->select(
+                'tournoi.*',
+                'categorie.nom as categorie_nom',
+                'inscription.id as inscription_tournoi_id'
+            )
+            ->when($name !== 'Tous les sports', function ($query) use ($name) {
+                $query->where('categorie.nom', $name);
+            })
+            ->orderBy('tournoi.date_debut', 'asc')
+            ->get();
 
-    /** Prépare la confirmation pour l’utilisateur garanti connecté par auth. */
-    public function showRegistration(Request $request, int $id): View
-    {
-        $tournoi = DB::table('tournoi')->where('id', $id)->first();
-        abort_unless($tournoi, 404, 'Tournoi introuvable.');
-
-        $dejaInscrit = DB::table('inscription')
-            ->where('utilisateur_id', $request->user()->id)
-            ->where('tournoi_id', $id)->exists();
-
-        return view('inscription', [
-            'tournoi' => $tournoi,
-            'utilisateur' => $request->user(),
-            'dejaInscrit' => $dejaInscrit,
-        ]);
-    }
-
-    /** Enregistre la participation après les vérifications métier existantes. */
-    public function register(Request $request, int $id): RedirectResponse
-    {
-        $tournoi = DB::table('tournoi')->where('id', $id)->first();
-        abort_unless($tournoi, 404, 'Tournoi introuvable.');
-        $redirect = route('tournament.registration', ['id' => $id]);
-
-        if (now()->greaterThan($tournoi->date_limite_inscription)) {
-            return redirect($redirect)->with('error', 'La date limite d’inscription est dépassée.');
-        }
-
-        $dejaInscrit = DB::table('inscription')
-            ->where('utilisateur_id', $request->user()->id)
-            ->where('tournoi_id', $id)->exists();
-
-        if ($dejaInscrit) {
-            return redirect($redirect)->with('error', 'Tu es déjà inscrit à ce tournoi.');
-        }
-
-        $nombreInscrits = DB::table('inscription')->where('tournoi_id', $id)->count();
-
-        if ($nombreInscrits >= $tournoi->nombre_max_participants) {
-            return redirect($redirect)->with('error', 'Désolé, ce tournoi est complet.');
-        }
-
-        DB::table('inscription')->insert([
-            'utilisateur_id' => $request->user()->id,
-            'tournoi_id' => $id,
-            'date_inscription' => now(),
-            'statut_id' => 1,
-        ]);
-
-        return redirect($redirect)->with(
-            'success',
-            'Félicitations ! Ton inscription au tournoi a bien été confirmée.',
-        );
+        return view('sport', compact('name', 'tournois'));
     }
 }

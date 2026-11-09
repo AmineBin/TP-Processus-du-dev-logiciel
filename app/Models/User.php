@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /** Utilisateur authentifiable, adapté aux noms de colonnes du schéma existant. */
 class User extends Authenticatable
@@ -46,4 +47,14 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class, 'role_id');
     }
+
+    public function tournois(): BelongsToMany
+{
+    return $this->belongsToMany(
+        Tournament::class,
+        'inscription',
+        'utilisateur_id',
+        'tournoi_id'
+    )->withPivot('id', 'date_inscription', 'statut_id');
+}
 }
